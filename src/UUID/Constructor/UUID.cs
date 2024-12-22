@@ -147,9 +147,11 @@ namespace System
         /// <remarks>
         /// The compact UUID:
         /// - Uses current timestamp for time-ordering
-        /// - Maintains uniqueness through random bits
+        /// - Provides probabilistic uniqueness (not guaranteed to be unique)
         /// - Can be represented in 12 characters
         /// - Is fully compatible with standard UUID operations
+        /// - Not recommended for scenarios requiring absolute uniqueness
+        /// - Best suited for cases where compact representation is priority over uniqueness
         /// </remarks>
         public static UUID NewCompact()
         {
@@ -163,8 +165,11 @@ namespace System
         /// <param name="timestamp">Unix timestamp in milliseconds</param>
         /// <returns>A new UUID instance with the specified timestamp.</returns>
         /// <remarks>
-        /// Useful for creating time-based sequences or testing scenarios.
-        /// The timestamp is preserved in the final UUID representation.
+        /// - Useful for creating time-based sequences or testing scenarios
+        /// - The timestamp is preserved in the final UUID representation
+        /// - Provides probabilistic uniqueness (not guaranteed to be unique)
+        /// - Not recommended for scenarios requiring absolute uniqueness
+        /// - Best suited for cases where compact representation and time-ordering are priorities
         /// </remarks>
         public static UUID NewCompactWithTime(long timestamp)
         {
