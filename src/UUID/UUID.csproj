@@ -28,7 +28,7 @@
         <PackageTags>uuid id universally unique identifiers identifier distributed scalable generator</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!--<DocumentationFile>..\$(Title)\bin$(OutputPath)\$(Configuration)\$(TargetFramework)\$(Title).xml</DocumentationFile>-->
-        <PackageProjectUrl>https://taiizor.github.io/UUID</PackageProjectUrl>
+        <PackageProjectUrl>https://uuid.soferity.com</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/Taiizor/UUID</RepositoryUrl>
         <PackageDescription>$(Description)</PackageDescription>

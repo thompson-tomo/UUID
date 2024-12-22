@@ -13,15 +13,21 @@ namespace UUIDCompareBenchmarks
     public class CompareBenchmarks
     {
         [Benchmark(Baseline = true)]
-        public Guid Generate_NewGuid()
+        public UUID Generate_NewCompactUUID()
         {
-            return Guid.NewGuid();
+            return UUID.NewCompact();
         }
 
         [Benchmark]
         public Guid Generate_NewGuidV7()
         {
             return Guid.CreateVersion7();
+        }
+
+        [Benchmark]
+        public Cuid2 Generate_NewCuid2()
+        {
+            return new();
         }
 
         [Benchmark]
@@ -32,9 +38,9 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public Cuid2 Generate_NewCuid2()
+        public Guid Generate_NewGuid()
         {
-            return new();
+            return Guid.NewGuid();
         }
 
         [Benchmark]
@@ -56,16 +62,16 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public void Generate_MultipleGuids()
+        public void Generate_MultipleNewUUIDCompacts()
         {
             for (int i = 0; i < 1000; i++)
             {
-                _ = Guid.NewGuid();
+                _ = UUID.NewCompact();
             }
         }
 
         [Benchmark]
-        public void Generate_MultipleGuidsV7()
+        public void Generate_MultipleNewGuidsV7()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -74,7 +80,7 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public void Generate_MultipleIdGens()
+        public void Generate_MultipleNewIdGens()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -84,7 +90,7 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public void Generate_MultipleCuid2s()
+        public void Generate_MultipleNewCuid2s()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -93,7 +99,16 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public void Generate_MultipleCuids()
+        public void Generate_MultipleNewGuids()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                _ = Guid.NewGuid();
+            }
+        }
+
+        [Benchmark]
+        public void Generate_MultipleNewCuids()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -102,7 +117,7 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public void Generate_MultipleUlid()
+        public void Generate_MultipleNewUlids()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -111,7 +126,7 @@ namespace UUIDCompareBenchmarks
         }
 
         [Benchmark]
-        public void Generate_MultipleUUIDs()
+        public void Generate_MultipleNewUUIDs()
         {
             for (int i = 0; i < 1000; i++)
             {

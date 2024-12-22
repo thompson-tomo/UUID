@@ -27,7 +27,7 @@
         <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
         <PackageTags>uuid;json;newtonsoft.json;serialization;converter;dotnet</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageProjectUrl>https://taiizor.github.io/UUID</PackageProjectUrl>
+        <PackageProjectUrl>https://uuid.soferity.com</PackageProjectUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/Taiizor/UUID</RepositoryUrl>
         <PackageDescription>$(Description)</PackageDescription>
