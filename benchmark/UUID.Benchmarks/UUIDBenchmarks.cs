@@ -10,6 +10,7 @@ namespace UUIDBenchmarks
     [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 2, iterationCount: 3)]
     public class UUIDBenchmarks
     {
+        private readonly long _timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         private readonly long[] _longResults = new long[1000];
         private readonly UUID[] _uuids = new UUID[1000];
         private readonly byte[] _buffer = new byte[16];
@@ -36,6 +37,18 @@ namespace UUIDBenchmarks
         public UUID Generate_New()
         {
             return UUID.New();
+        }
+
+        [Benchmark]
+        public UUID Generate_NewCompact()
+        {
+            return UUID.NewCompact();
+        }
+
+        [Benchmark]
+        public UUID Generate_NewCompactWithTime()
+        {
+            return UUID.NewCompactWithTime(_timestamp);
         }
 
         [Benchmark]
