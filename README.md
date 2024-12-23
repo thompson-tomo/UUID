@@ -119,34 +119,6 @@ UUID works on .NET Framework, .NET Standard, .NET Core and .NET.
 
 Binaries for all platforms are built from a single Visual Studio Project. You will need the latset [Visual Studio](https://visualstudio.microsoft.com/downloads) to build or contribute to UUID.
 
-## Features
-
-- **High Performance & Thread Safety**
-  - Thread-safe operations optimized for performance
-  - Thread-local secure random generation
-  - Efficient memory usage with 16-byte format
-
-- **Time-Based Ordering**
-  - Natural sorting based on creation time
-  - Monotonic timestamps for consistent ordering
-  - Perfect for distributed systems and databases
-
-- **Security**
-  - Cryptographically secure random generation
-  - Enhanced protection against prediction and collision
-
-- **Multiple Format Support**
-  - Base32 encoding for URL-friendly strings
-  - Base64 encoding for compact representation
-  - Guid compatibility
-  - Efficient string parsing and formatting
-
-- **Rich API**
-  - Implicit/explicit conversion operators
-  - Comparison and equality operations
-  - Comprehensive test coverage
-  - Cross-platform compatibility
-
 ## Getting started
 
 UUID is distributed via Microsofts package manager [NuGet](https://www.nuget.org). We refer to [this page](https://docs.microsoft.com/en-gb/nuget) for detailed descriptions on how to get started/use NuGet. Here is a link to the [UUID NuGet package](https://www.nuget.org/packages/UUID).
