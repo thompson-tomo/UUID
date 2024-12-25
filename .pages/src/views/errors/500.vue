@@ -1,15 +1,17 @@
 <template>
   <div class="error-page">
-    <div class="error-container">
-      <div class="error-icon">
-        <i class="fas fa-server pulse"></i>
+    <div class="error-content">
+      <div class="error-container">
+        <div class="error-icon">
+          <i class="fas fa-server pulse"></i>
+        </div>
+        <h1 class="glow">500</h1>
+        <h2>Server Error</h2>
+        <p>Sorry, something went wrong on our end. Please try again later.</p>
+        <router-link to="/" class="home-button">
+          <i class="fas fa-home"></i> Back to Home
+        </router-link>
       </div>
-      <h1 class="glow">500</h1>
-      <h2>Server Error</h2>
-      <p>Sorry, something went wrong on our end. Please try again later.</p>
-      <router-link to="/" class="home-button">
-        <i class="fas fa-home"></i> Back to Home
-      </router-link>
     </div>
   </div>
 </template>
@@ -22,46 +24,39 @@ export default {
 
 <style scoped>
 .error-page {
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: var(--sidebar-width);
+  background-color: var(--bg-primary);
+  overflow: auto;
+}
+
+.error-content {
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-primary);
-  padding: 2rem;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  padding: 40px 20px;
 }
 
 .error-container {
   text-align: center;
-  padding: 2rem;
+  padding: 40px;
   background-color: var(--bg-secondary);
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.1);
+  width: 100%;
   max-width: 600px;
-  width: 90%;
   animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .error-icon {
   font-size: 4rem;
   color: #ffd700;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  display: inline-block;
 }
 
 .pulse {
@@ -81,11 +76,14 @@ export default {
 }
 
 h1 {
-  font-size: 6rem;
+  font-size: clamp(4rem, 10vw, 6rem);
   color: #ffd700;
   margin: 0;
   line-height: 1;
   font-weight: 700;
+  background: linear-gradient(45deg, #ffd700, #ffed4a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .glow {
@@ -102,31 +100,29 @@ h1 {
 }
 
 h2 {
-  font-size: 2rem;
-  color: var(--text-primary);
+  font-size: clamp(1.5rem, 4vw, 2rem);
   margin: 1rem 0;
-  font-weight: 600;
+  color: #fff;
 }
 
 p {
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
+  color: #a7a7a7;
   font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .home-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
+  display: inline-block;
+  padding: 12px 24px;
   background-color: #ffd700;
-  color: var(--bg-primary);
+  color: #000;
   text-decoration: none;
-  border-radius: 5px;
-  transition: all 0.3s ease;
+  border-radius: 6px;
   font-weight: 500;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .home-button:hover {
@@ -134,28 +130,23 @@ p {
   transform: translateY(-2px);
 }
 
-.home-button::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: rotate(45deg);
-  transition: all 0.3s ease;
-}
-
-.home-button:hover::after {
-  transform: rotate(45deg) translate(50%, 50%);
-}
-
 .home-button i {
   font-size: 1.1rem;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 768px) {
-  .error-container {
+  .error-content {
     padding: 2rem;
     margin: 1rem;
   }
