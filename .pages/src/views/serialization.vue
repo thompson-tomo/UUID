@@ -484,7 +484,7 @@ section {
   animation: fadeIn 1s ease-out;
 }
 
-/* Animasyon tanımlamaları */
+/* Animation definitions */
 @keyframes slideInDown {
   from {
     opacity: 0;
@@ -538,7 +538,7 @@ section {
   }
 }
 
-/* Responsive tasarım için medya sorguları */
+/* Media queries for responsive design */
 @media (max-width: 768px) {
   h1 {
     font-size: 2rem;

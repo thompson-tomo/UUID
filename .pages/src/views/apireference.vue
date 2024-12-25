@@ -363,7 +363,7 @@ p {
   line-height: 1.4;
 }
 
-/* Prism.js özel renk tanımlamaları */
+/* Prism.js custom color definitions */
 :deep(.token.comment),
 :deep(.token.prolog),
 :deep(.token.doctype),
@@ -400,7 +400,7 @@ p {
   color: #b5cea8;
 }
 
-/* Animasyonlar */
+/* Animations */
 .animate-in {
   opacity: 0;
   transform: translateY(20px);
@@ -442,7 +442,7 @@ p {
   }
 }
 
-/* Hover Animasyonları */
+/* Hover Animations */
 .tip-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -490,7 +490,7 @@ p {
   }
 }
 
-/* Mobil Responsive */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .api-reference {
     padding: 20px;

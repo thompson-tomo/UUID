@@ -20,12 +20,51 @@
 </template>
 
 <script>
+import { useHead } from '@vueuse/head'
 import Sidebar from './components/Sidebar.vue'
 
 export default {
   name: 'App',
   components: {
     Sidebar
+  },
+  setup() {
+    useHead({
+      title: 'UUID - High-Performance .NET UUID Generator for Modern Systems',
+      titleTemplate: (title) => `${title}`,
+      meta: [
+        { charset: 'UTF-8' },
+        { name: 'author', content: 'Taiizor' },
+        { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
+        { name: 'viewport', content: 'width=device-width,initial-scale=1.0' },
+        { name: 'keywords', content: 'UUID, GUID, .NET, C#, Distributed Systems, High Performance, Thread-Safe, Cryptographic Random, Time-Ordered UUID, Base32, Base64, Cross-Platform, .NET Core, .NET Framework, .NET Standard' },
+        { name: 'description', content: 'UUID is a cutting-edge .NET library for generating unique identifiers in modern distributed systems. Features thread-safety, time-ordered UUIDs, cryptographic randomness, and high performance.' },
+        
+        { property: 'og:type', content: 'website' },
+        { property: 'og:locale', content: 'en_GB' },
+        { property: 'og:image', content: '/Logo.png' },
+        { property: 'og:image:width', content: '512' },
+        { property: 'og:image:height', content: '512' },
+        { property: 'og:site_name', content: 'UUID by Taiizor' },
+        { property: 'og:url', content: 'https://uuid.soferity.com/' },
+        { property: 'og:image:alt', content: 'UUID - Modern .NET UUID Implementation' },
+        { property: 'og:title', content: 'UUID - High-Performance .NET UUID Generator for Modern Systems' },
+        { property: 'og:description', content: 'A modern, thread-safe UUID generator for .NET with time-ordered identifiers, cryptographic randomness, and comprehensive Guid compatibility. Perfect for distributed systems and high-throughput applications.' },
+        
+        { name: 'twitter:site', content: '@Taiizor' },
+        { name: 'twitter:image', content: '/Logo.png' },
+        { name: 'twitter:creator', content: '@Taiizor' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:url', content: 'https://uuid.soferity.com/' },
+        { name: 'twitter:image:alt', content: 'UUID - Modern .NET UUID Implementation' },
+        { name: 'twitter:title', content: 'UUID - High-Performance .NET UUID Generator for Modern Systems' },
+        { name: 'twitter:description', content: 'A modern, thread-safe UUID generator for .NET with time-ordered identifiers, cryptographic randomness, and comprehensive Guid compatibility. Perfect for distributed systems and high-throughput applications.' }
+      ],
+      link: [
+        { rel: 'icon', href: '/favicon.ico' },
+        { rel: 'canonical', href: 'https://uuid.soferity.com' }
+      ]
+    })
   },
   data() {
     return {

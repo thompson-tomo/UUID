@@ -539,7 +539,7 @@ section {
   }
 }
 
-/* Prism.js özel renk tanımlamaları */
+/* Prism.js custom color definitions */
 :deep(.token.comment),
 :deep(.token.prolog),
 :deep(.token.doctype),

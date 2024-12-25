@@ -393,7 +393,7 @@ section {
   transform: scale(1.01);
 }
 
-/* Animasyon tanımlamaları */
+/* Animation definitions */
 @keyframes slideInDown {
   from {
     opacity: 0;
@@ -456,13 +456,13 @@ section {
   }
 }
 
-/* Kademeli görünme için gecikme sınıfları */
+/* Delay classes for staggered appearance */
 section:nth-child(2) { animation-delay: 0.1s; }
 section:nth-child(3) { animation-delay: 0.2s; }
 section:nth-child(4) { animation-delay: 0.3s; }
 section:nth-child(5) { animation-delay: 0.4s; }
 
-/* Responsive tasarım için medya sorguları */
+/* Media queries for responsive design */
 @media (max-width: 768px) {
   h1 {
     font-size: 2rem;
