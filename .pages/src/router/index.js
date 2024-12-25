@@ -7,7 +7,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: 'UUID - Modern .NET UUID Implementation'
+      title: 'UUID - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -15,7 +15,7 @@ const routes = [
     name: 'GettingStarted',
     component: () => import('../views/gettingstarted.vue'),
     meta: {
-      title: 'Getting Started - UUID Documentation'
+      title: 'Getting Started - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -23,7 +23,7 @@ const routes = [
     name: 'APIReference',
     component: () => import('../views/apireference.vue'),
     meta: {
-      title: 'API Reference - UUID Documentation'
+      title: 'API Reference - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -31,7 +31,7 @@ const routes = [
     name: 'Examples',
     component: () => import('../views/examples.vue'),
     meta: {
-      title: 'Examples - UUID Documentation'
+      title: 'Examples - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -39,7 +39,7 @@ const routes = [
     name: 'Serialization',
     component: () => import('../views/serialization.vue'),
     meta: {
-      title: 'Serialization - UUID Documentation'
+      title: 'Serialization - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -47,7 +47,7 @@ const routes = [
     name: 'Performance',
     component: () => import('../views/performance.vue'),
     meta: {
-      title: 'Performance - UUID Documentation'
+      title: 'Performance - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -55,15 +55,15 @@ const routes = [
     name: 'Security',
     component: () => import('../views/security.vue'),
     meta: {
-      title: 'Security - UUID Documentation'
+      title: 'Security - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
-    path: '/migration',
-    name: 'Migration',
-    component: () => import('../views/migration.vue'),
+    path: '/migration-guide',
+    name: 'MigrationGuide',
+    component: () => import('../views/migrationguide.vue'),
     meta: {
-      title: 'Migration Guide - UUID Documentation'
+      title: 'Migration Guide - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -71,7 +71,7 @@ const routes = [
     name: 'FAQ',
     component: () => import('../views/faq.vue'),
     meta: {
-      title: 'FAQ - UUID Documentation'
+      title: 'FAQ - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -79,7 +79,7 @@ const routes = [
     name: 'NotFound',
     component: () => import('../views/errors/404.vue'),
     meta: {
-      title: 'Page Not Found - UUID Documentation'
+      title: 'Page Not Found - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -87,7 +87,7 @@ const routes = [
     name: 'ServerError',
     component: () => import('../views/errors/500.vue'),
     meta: {
-      title: 'Server Error - UUID Documentation'
+      title: 'Server Error - High-Performance .NET UUID Generator for Modern Systems'
     }
   },
   {
@@ -102,7 +102,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'UUID Documentation'
+  document.title = to.meta.title || 'High-Performance .NET UUID Generator for Modern Systems'
   next()
 })
 

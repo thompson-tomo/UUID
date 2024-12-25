@@ -50,9 +50,9 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/migration" class="nav-link" @click="closeMobileMenu">
+          <router-link to="/migration-guide" class="nav-link" @click="closeMobileMenu">
             <i class="fas fa-exchange-alt"></i>
-            <span>Migration</span>
+            <span>Migration Guide</span>
           </router-link>
         </li>
         <li>
