@@ -8,7 +8,7 @@
       <div class="example-card">
         <h3>Basic Migration</h3>
         <code-block>{{ basicMigration.code }}</code-block>
-        <p>The UUID library provides a modern, high-performance alternative to System.Guid with additional features and better performance.</p>
+        <p>The UUID library provides a modern, high-performance alternative to Guid with additional features and better performance.</p>
       </div>
 
       <div class="example-card">
@@ -146,7 +146,7 @@ SqlMapper.AddTypeHandler(new UUIDTypeHandler());`
 UUID uuid = new UUID();
 
 // Standard format
-string standard = uuid.ToString();  // "0123456789abcdef0123456789abcdef"
+string standard = uuid.ToString();  // "0123456789ABCDEF0123456789ABCDEF"
 
 // URL-safe format
 string urlSafe = uuid.ToBase32();   // "028T5CY4TQKFF028T5CY4TQKFF"

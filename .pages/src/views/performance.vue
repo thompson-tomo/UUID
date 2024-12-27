@@ -243,7 +243,7 @@ void ProcessId(UUID uuid)
     [Benchmark]
     public void ParseUUID()
     {
-        UUID.Parse("0123456789abcdef0123456789abcdef");
+        UUID.Parse("0123456789ABCDEF0123456789ABCDEF");
     }
 }`
       }

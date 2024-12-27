@@ -119,10 +119,10 @@ Install-Package UUID`,
 var id = new UUID();
 
 // Convert to string
-string str = id.ToString();  // "0123456789abcdef0123456789abcdef"
+string str = id.ToString();  // "0123456789ABCDEF0123456789ABCDEF"
 
 // Parse from string
-UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");
+UUID parsed = UUID.Parse("0123456789ABCDEF0123456789ABCDEF");
 
 // Check UUID version and variant
 Console.WriteLine($"Version: {id.Version}"); // 7 (UUIDv7)
@@ -135,7 +135,7 @@ Console.WriteLine($"Time: {id.Time:yyyy-MM-dd HH:mm:ss.fff}");`,
 
 // Standard format
 string standard = uuid.ToString();
-// "0123456789abcdef0123456789abcdef"
+// "0123456789ABCDEF0123456789ABCDEF"
 
 // Int64 format
 long int64 = uuid.ToInt64();
@@ -199,7 +199,7 @@ if (id.TryWriteBytes(destination))
 }`,
 
       errorHandlingCode: `// Safe parsing with TryParse
-if (UUID.TryParse("0123456789abcdef0123456789abcdef", out UUID result))
+if (UUID.TryParse("0123456789ABCDEF0123456789ABCDEF", out UUID result))
 {
     Console.WriteLine($"Successfully parsed: {result}");
 }

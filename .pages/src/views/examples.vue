@@ -88,10 +88,10 @@ byte[] bytes = id.ToByteArray();`,
           id: 2,
           title: 'Parse UUIDs',
           code: `// Parse from string
-var id1 = UUID.Parse("0123456789abcdef0123456789abcdef");
+var id1 = UUID.Parse("0123456789ABCDEF0123456789ABCDEF");
 
 // Try parse pattern
-if (UUID.TryParse("0123456789abcdef0123456789abcdef", out var id2))
+if (UUID.TryParse("0123456789ABCDEF0123456789ABCDEF", out var id2))
 {
     Console.WriteLine("Successfully parsed: " + id2);
 }`,

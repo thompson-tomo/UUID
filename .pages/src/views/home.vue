@@ -107,7 +107,7 @@ var id = new UUID();
 string str = id.ToString();
 
 // Parse from string
-UUID parsed = UUID.Parse("0123456789abcdef0123456789abcdef");
+UUID parsed = UUID.Parse("0123456789ABCDEF0123456789ABCDEF");
 
 // Bulk UUID Generation
 UUID[] uuids = new UUID[1000];

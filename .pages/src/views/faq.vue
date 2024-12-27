@@ -140,7 +140,7 @@ ArrayExtension.Fill(uuids);`
 
 // Standard format (default)
 Console.WriteLine(uuid.ToString());
-// "0123456789abcdef0123456789abcdef"
+// "0123456789ABCDEF0123456789ABCDEF"
 
 // Base32 (URL-safe)
 Console.WriteLine(uuid.ToBase32());
