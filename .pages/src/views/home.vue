@@ -114,7 +114,7 @@ UUID[] uuids = new UUID[1000];
 uuids.Fill();  // Efficiently fills array with new UUIDs
 
 // Generate with error handling
-if (UUID.TryGenerate(1000, out UUID[]? result))
+if (ArrayExtension.TryGenerate(1000, out UUID[]? result))
 {
     // Use the generated UUIDs
     foreach (var uuid in result)
