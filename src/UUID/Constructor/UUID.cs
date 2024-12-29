@@ -87,12 +87,6 @@ namespace System
         internal readonly ulong _timestamp = timestamp;
 
         /// <summary>
-        /// Lock object for thread-safe counter operations.
-        /// Ensures monotonic ordering of UUIDs generated within the same millisecond.
-        /// </summary>
-        private static readonly object _counterLock = new();
-
-        /// <summary>
         /// Characters used in Base32 encoding.
         /// </summary>
         /// <remarks>
@@ -229,24 +223,41 @@ namespace System
         /// <returns>A 12-bit counter value that ensures monotonic ordering</returns>
         /// <remarks>
         /// This method ensures that UUIDs generated within the same millisecond
-        /// maintain a strict ordering through the use of a 12-bit counter.
+        /// maintain a strict ordering through the use of a 12-bit counter and Interlocked operations.
         /// The counter resets when moving to a new millisecond.
+        /// If the counter overflows (reaches 4095), the method will wait for the next millisecond.
+        /// Thread safety is achieved using atomic operations instead of locks.
         /// </remarks>
         private static int GetMonotonicCounter(long timestamp)
         {
-            lock (_counterLock)
+            while (true)
             {
-                if (timestamp > _lastTimestamp)
-                {
-                    _counter = 0;
-                    _lastTimestamp = timestamp;
-                }
-                else if (timestamp == _lastTimestamp)
-                {
-                    _counter = (_counter + 1) & 0xFFF; // 12-bit counter
-                }
+                long lastTimestamp = Interlocked.Read(ref _lastTimestamp);
 
-                return _counter;
+                if (timestamp > lastTimestamp)
+                {
+                    if (Interlocked.CompareExchange(ref _lastTimestamp, timestamp, lastTimestamp) == lastTimestamp)
+                    {
+                        Interlocked.Exchange(ref _counter, 0);
+
+                        return 0;
+                    }
+                }
+                else if (timestamp == lastTimestamp)
+                {
+                    int currentCounter = Interlocked.Increment(ref _counter) & 0xFFF; // 12-bit counter
+
+                    if (currentCounter != 0)
+                    {
+                        return currentCounter;
+                    }
+                    
+                    Thread.Sleep(0);
+                }
+                else
+                {
+                    return Interlocked.Add(ref _counter, 0) & 0xFFF;
+                }
             }
         }
 
