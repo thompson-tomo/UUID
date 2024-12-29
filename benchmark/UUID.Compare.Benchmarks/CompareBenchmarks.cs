@@ -14,13 +14,13 @@ namespace UUIDCompareBenchmarks
     {
         private readonly long _timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public UUID Generate_NewCompactWithTimeUUID()
         {
             return UUID.NewCompactWithTime(_timestamp);
         }
 
-        [Benchmark(Baseline = true)]
+        [Benchmark]
         public UUID Generate_NewCompactUUID()
         {
             return UUID.NewCompact();
