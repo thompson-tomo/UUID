@@ -146,17 +146,37 @@ p {
 }
 
 @media (max-width: 768px) {
-  .error-content {
-    padding: 2rem;
-    margin: 1rem;
+  .error-page {
+    left: 0;
+  }
+
+  .error-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .error-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
   }
 
   h1 {
-    font-size: 4rem;
+    font-size: clamp(3rem, 8vw, 4rem);
   }
 
   h2 {
     font-size: 1.5rem;
+    margin: 10px 0;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+
+  .home-button {
+    padding: 10px 20px;
+    font-size: 1rem;
   }
 }
 </style>

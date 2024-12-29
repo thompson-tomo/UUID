@@ -149,12 +149,10 @@ var id = new UUID();
 string standard = id.ToString();
 string base64 = id.ToBase64();
 string base32 = id.ToBase32();
-long int64 = id.ToInt64();
 
 Console.WriteLine($"Standard: {standard}");
 Console.WriteLine($"Base64: {base64}");
 Console.WriteLine($"Base32: {base32}");
-Console.WriteLine($"Int64: {int64}");
 
 // Convert back from Base64
 UUID fromBase64 = UUID.FromBase64(base64);
