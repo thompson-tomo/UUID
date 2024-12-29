@@ -251,7 +251,7 @@ namespace System
                     {
                         return currentCounter;
                     }
-                    
+
                     Thread.Sleep(0);
                 }
                 else
