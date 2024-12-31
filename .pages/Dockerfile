@@ -1,32 +1,32 @@
-# Build aşaması
+# Build stage
 FROM node:18-alpine as build-stage
 
-# Çalışma dizinini belirleme
+# Set the working directory
 WORKDIR /app
 
-# Package.json ve package-lock.json dosyalarını kopyalama
+# Copy package.json and package-lock.json files
 COPY package*.json ./
 
-# Bağımlılıkları yükleme
+# Install dependencies
 RUN npm install
 
-# Proje dosyalarını kopyalama
+# Copy project files
 COPY . .
 
-# Projeyi build etme
+# Build the project
 RUN npm run build
 
-# Production aşaması
+# Production stage
 FROM nginx:stable-alpine as production-stage
 
-# Nginx yapılandırma dosyasını kopyalama
+# Copy Nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Build dosyalarını nginx'e kopyalama
+# Copy build files to Nginx
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-# 4389 portunu dışarı açma
+# Expose port 4389
 EXPOSE 4389
 
-# Nginx'i başlatma
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
