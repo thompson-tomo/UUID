@@ -88,7 +88,7 @@ export default {
         top: 0,
         behavior: 'smooth'
       })
-      // Ana içerik alanını da sıfırla
+
       const mainContent = document.querySelector('.main-content')
       if (mainContent) {
         mainContent.scrollTo({
@@ -99,7 +99,6 @@ export default {
     }
   },
   mounted() {
-    // Sayfa ilk yüklendiğinde de scroll'u sıfırla
     this.scrollToTop()
   }
 }
@@ -109,7 +108,6 @@ export default {
 @import '@fortawesome/fontawesome-free/css/all.css';
 @import './assets/css/style.css';
 
-/* Webkit (Chrome, Safari, Edge) için scroll bar stili */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -131,7 +129,6 @@ export default {
   background: #ffd700;
 }
 
-/* Firefox için scroll bar stili */
 * {
   scrollbar-width: thin;
   scrollbar-color: #333 #1a1a1a;
