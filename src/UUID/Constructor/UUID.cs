@@ -96,23 +96,35 @@ namespace System
         private const string ENCODING_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 
         /// <summary>
-        /// Thread-local random number generator for secure random number generation.
+        /// Thread-local position tracker for the random byte buffer.
         /// </summary>
-        private static readonly ThreadLocal<Random> _rng = new(() =>
-        {
-#if NET6_0_OR_GREATER
-            return new Random(BitConverter.ToInt32(RandomNumberGenerator.GetBytes(4)));
-#else
-            byte[] bytes = new byte[4];
+        /// <remarks>
+        /// Tracks the current position in the buffer for each thread. When the position
+        /// reaches the buffer size (1024 bytes), the buffer is refilled with new random data.
+        /// This approach reduces the number of cryptographic random number generator calls
+        /// by reusing previously generated random bytes.
+        /// </remarks>
+        private static readonly ThreadLocal<int> _bufferPosition = new(() => 1024);
 
-            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(bytes);
-            }
+        /// <summary>
+        /// Thread-local buffer for generating random bytes efficiently.
+        /// </summary>
+        /// <remarks>
+        /// A reusable 1024-byte buffer allocated per thread to avoid repeated memory allocations
+        /// when generating random components of UUIDs. This improves performance while maintaining
+        /// thread safety as each thread has its own buffer instance.
+        /// </remarks>
+        private static readonly ThreadLocal<byte[]> _buffer = new(() => new byte[1024]);
 
-            return new Random(BitConverter.ToInt32(bytes, 0));
-#endif
-        });
+        /// <summary>
+        /// Thread-local cryptographic random number generator for secure random number generation.
+        /// </summary>
+        /// <remarks>
+        /// Uses a cryptographically secure random number generator (RandomNumberGenerator) allocated per thread
+        /// to generate random bytes for UUID components. This ensures both thread safety and cryptographic security
+        /// while maintaining optimal performance through thread-local instances.
+        /// </remarks>
+        private static readonly ThreadLocal<RandomNumberGenerator> _rng = new(RandomNumberGenerator.Create);
 
         /// <summary>
         /// Creates a new UUID instance with current timestamp.
@@ -293,17 +305,27 @@ namespace System
         /// </summary>
         /// <returns>A 64-bit unsigned integer containing random data.</returns>
         /// <remarks>
-        /// Uses a thread-local cryptographic random number generator
-        /// to ensure both security and performance.
+        /// Uses a thread-local buffer and cryptographic random number generator to generate
+        /// 8 bytes of random data. The data is then converted to a 64-bit unsigned integer
+        /// and the variant bits are set according to the UUID specification.
+        /// This approach ensures both security and performance by reusing the buffer
+        /// while maintaining cryptographic randomness.
         /// </remarks>
         private static ulong GenerateRandom()
         {
-            ulong random = ((ulong)_rng.Value!.Next() << 32) | (uint)_rng.Value!.Next();
+            int position = _bufferPosition.Value;
+            byte[]? buffer = _buffer.Value;
 
-            // Set the variant bits
-            random = (random & 0x3FFF_FFFF_FFFF_FFFF) | ((ulong)VARIANT << 62);
+            if (position + 8 > buffer.Length)
+            {
+                _rng.Value!.GetBytes(buffer);
+                position = 0;
+            }
 
-            return random;
+            ulong random = BitConverter.ToUInt64(buffer, position);
+            _bufferPosition.Value = position + 8;
+
+            return (random & 0x3FFF_FFFF_FFFF_FFFF) | ((ulong)VARIANT << 62);
         }
 
         /// <summary>
