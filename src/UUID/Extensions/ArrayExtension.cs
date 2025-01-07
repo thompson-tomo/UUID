@@ -224,28 +224,64 @@ namespace System
         /// <param name="count">The number of UUIDs to generate.</param>
         /// <param name="startTime">Optional starting timestamp. If not provided, current time is used.</param>
         /// <returns>An array of ordered UUIDs.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when count is negative.</exception>
         public static UUID[] GenerateOrdered(int count, DateTimeOffset? startTime = null)
         {
-            if (count < 0)
+            if (!TryGenerateOrdered(count, out UUID[]? result, startTime))
             {
                 throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be negative.");
             }
 
-            UUID[] array = new UUID[count];
-            if (count == 0)
+            return result!;
+        }
+
+        /// <summary>
+        /// Attempts to generate a sequence of ordered UUIDs.
+        /// </summary>
+        /// <param name="count">The number of UUIDs to generate.</param>
+        /// <param name="result">When this method returns, contains the generated ordered UUID array if successful, or null if unsuccessful.</param>
+        /// <param name="startTime">Optional starting timestamp. If not provided, current time is used.</param>
+        /// <returns>True if the array was successfully generated, false otherwise.</returns>
+        /// <remarks>
+        /// This method:
+        /// - Creates UUIDs with monotonically increasing timestamps
+        /// - Ensures each UUID is greater than its predecessor
+        /// - Uses cryptographically secure random values
+        /// - Maintains UUID version and variant consistency
+        /// The generated UUIDs are guaranteed to be ordered when compared using standard UUID comparison.
+        /// </remarks>
+        public static bool TryGenerateOrdered(int count, out UUID[]? result, DateTimeOffset? startTime = null)
+        {
+            result = null;
+
+            if (count < 0)
             {
-                return array;
+                return false;
             }
 
-            var timestamp = startTime ?? DateTimeOffset.UtcNow;
-            var baseTimestamp = timestamp.ToUnixTimeMilliseconds();
-
-            for (int i = 0; i < count; i++)
+            try
             {
-                array[i] = new UUID((ulong)((baseTimestamp + i) << 16) | ((ulong)0x07 << 12) | (uint)(i & 0xFFF), GenerateRandom());
-            }
+                result = new UUID[count];
+                if (count == 0)
+                {
+                    return true;
+                }
 
-            return array;
+                var timestamp = startTime ?? DateTimeOffset.UtcNow;
+                var baseTimestamp = timestamp.ToUnixTimeMilliseconds();
+
+                for (int i = 0; i < count; i++)
+                {
+                    result[i] = new UUID((ulong)((baseTimestamp + i) << 16) | ((ulong)0x07 << 12) | (uint)(i & 0xFFF), GenerateRandom());
+                }
+
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
         }
 
         /// <summary>
