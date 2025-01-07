@@ -542,5 +542,43 @@ namespace UUIDTests
             Assert.False(UUID.SecureEquals(uuid1, uuid4));
             Assert.True(UUID.SecureEquals(uuid1, uuid1)); // Same reference
         }
+
+        [Fact]
+        public void Empty_ShouldReturnZeroUUID()
+        {
+            // Act
+            UUID emptyUuid = UUID.Empty;
+
+            // Assert
+            Assert.Equal(DateTimeOffset.UnixEpoch, emptyUuid.Time); // Check timestamp via public property
+            Assert.Equal(0UL, emptyUuid.Random);
+            Assert.Equal("00000000000000000000000000000000", emptyUuid.ToString());
+        }
+
+        [Fact]
+        public void Empty_ShouldBeConsistent()
+        {
+            // Arrange
+            UUID empty1 = UUID.Empty;
+            UUID empty2 = UUID.Empty;
+
+            // Act & Assert
+            Assert.Equal(empty1, empty2);
+            Assert.True(empty1.Equals(empty2));
+            Assert.True(UUID.SecureEquals(empty1, empty2));
+        }
+
+        [Fact]
+        public void Empty_ShouldNotEqualNewUUID()
+        {
+            // Arrange
+            UUID empty = UUID.Empty;
+            UUID newUuid = new();
+
+            // Act & Assert
+            Assert.NotEqual(empty, newUuid);
+            Assert.False(empty.Equals(newUuid));
+            Assert.False(UUID.SecureEquals(empty, newUuid));
+        }
     }
 }

@@ -82,6 +82,15 @@ namespace System
         public ulong Random { get; } = random;
 
         /// <summary>
+        /// Gets the empty UUID value (all zeros).
+        /// </summary>
+        /// <remarks>
+        /// Represents a UUID where all bits are set to zero.
+        /// Equivalent to "00000000000000000000000000000000".
+        /// </remarks>
+        public static UUID Empty => new(0UL, 0UL);
+
+        /// <summary>
         /// The timestamp component of the UUID.
         /// </summary>
         internal readonly ulong _timestamp = timestamp;
