@@ -493,5 +493,54 @@ namespace UUIDTests
             Assert.True(uuid.Time >= before);
             Assert.True(uuid.Time <= after);
         }
+
+        [Fact]
+        public void SecureEquals_Instance_ShouldCompareCorrectly()
+        {
+            // Arrange
+            UUID uuid1 = new(123456UL, 789012UL);
+            UUID uuid2 = new(123456UL, 789012UL); // Same values
+            UUID uuid3 = new(123456UL, 789013UL); // Different random
+            UUID uuid4 = new(123457UL, 789012UL); // Different timestamp
+
+            // Act & Assert
+            Assert.True(uuid1.SecureEquals(uuid2));
+            Assert.False(uuid1.SecureEquals(uuid3));
+            Assert.False(uuid1.SecureEquals(uuid4));
+            Assert.True(uuid1.SecureEquals(uuid1)); // Same reference
+        }
+
+        [Fact]
+        public void SecureEquals_Object_ShouldHandleVariousTypes()
+        {
+            // Arrange
+            UUID uuid = new(123456UL, 789012UL);
+            object sameUuid = new UUID(123456UL, 789012UL);
+            object differentUuid = new UUID(123456UL, 789013UL);
+            object nullObj = null;
+            object nonUuid = "not a UUID";
+
+            // Act & Assert
+            Assert.True(uuid.SecureEquals(sameUuid));
+            Assert.False(uuid.SecureEquals(differentUuid));
+            Assert.False(uuid.SecureEquals(nullObj));
+            Assert.False(uuid.SecureEquals(nonUuid));
+        }
+
+        [Fact]
+        public void SecureEquals_Static_ShouldCompareCorrectly()
+        {
+            // Arrange
+            UUID uuid1 = new(123456UL, 789012UL);
+            UUID uuid2 = new(123456UL, 789012UL); // Same values
+            UUID uuid3 = new(123456UL, 789013UL); // Different random
+            UUID uuid4 = new(123457UL, 789012UL); // Different timestamp
+
+            // Act & Assert
+            Assert.True(UUID.SecureEquals(uuid1, uuid2));
+            Assert.False(UUID.SecureEquals(uuid1, uuid3));
+            Assert.False(UUID.SecureEquals(uuid1, uuid4));
+            Assert.True(UUID.SecureEquals(uuid1, uuid1)); // Same reference
+        }
     }
 }
