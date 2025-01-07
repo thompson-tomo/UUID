@@ -182,6 +182,11 @@ public bool Equals(UUID other)
 public override bool Equals(object obj)
 public override int GetHashCode()
 
+// Secure equality methods for timing attack prevention
+public bool SecureEquals(UUID other)
+public bool SecureEquals(object? obj)
+public static bool SecureEquals(UUID first, UUID second)
+
 // Comparison methods (implements IComparable)
 public int CompareTo(UUID other)
 public int CompareTo(object obj)
