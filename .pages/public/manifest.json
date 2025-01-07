@@ -1,0 +1,66 @@
+{
+    "description": "UUID is a cutting-edge .NET library for generating unique identifiers in modern distributed systems. Features thread-safety, time-ordered UUIDs, cryptographic randomness, and high performance.",
+    "short_name": "UUID - High-Performance .NET UUID Generator for Modern Systems",
+    "start_url": "/?utm_source=pwa_launch",
+    "id": "/?utm_source=pwa_launch",
+    "background_color": "#000000",
+    "orientation": "portrait",
+    "theme_color": "#131313",
+    "display": "standalone",
+    "manifest_version": 3,
+    "shortcuts": [],
+    "name": "UUID",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "logos/uuid.16.png",
+            "type": "image/png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "logos/uuid.24.png",
+            "type": "image/png",
+            "sizes": "24x24"
+        },
+        {
+            "src": "logos/uuid.32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "logos/uuid.48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "logos/uuid.64.png",
+            "type": "image/png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "logos/uuid.96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "logos/uuid.128.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "logos/uuid.256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "logos/uuid.512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "logos/uuid.1024.png",
+            "type": "image/png",
+            "sizes": "1024x1024"
+        }
+    ]
+}
