@@ -193,19 +193,28 @@ namespace UUIDTests
         [Fact]
         public void TryGenerateOrdered_ShouldRespectStartTime()
         {
-            var startTime = DateTimeOffset.UtcNow.AddDays(-1);
+            DateTimeOffset startTime = DateTimeOffset.UtcNow.AddDays(-1);
             Assert.True(ArrayExtension.TryGenerateOrdered(10, out UUID[] result, startTime));
 
-            // Check if all UUIDs have timestamps after startTime
-            foreach (var uuid in result)
+            Assert.NotNull(result);
+            Assert.Equal(10, result.Length);
+
+            // Check if all UUIDs have timestamps after or equal to startTime
+            long startTimeMs = startTime.ToUnixTimeMilliseconds();
+            foreach (UUID uuid in result)
             {
-                Assert.True(uuid.Time >= startTime);
+                long uuidTimeMs = uuid.Time.ToUnixTimeMilliseconds();
+                Assert.True(uuidTimeMs >= startTimeMs,
+                    $"UUID timestamp {uuidTimeMs} should be >= start time {startTimeMs}");
             }
 
             // Check if timestamps are sequential
             for (int i = 1; i < result.Length; i++)
             {
-                Assert.True(result[i].Time > result[i - 1].Time);
+                long prevTimeMs = result[i - 1].Time.ToUnixTimeMilliseconds();
+                long currTimeMs = result[i].Time.ToUnixTimeMilliseconds();
+                Assert.True(currTimeMs > prevTimeMs,
+                    $"UUID at index {i} ({currTimeMs}) should be > previous UUID ({prevTimeMs})");
             }
         }
 
