@@ -218,6 +218,18 @@ public static class ArrayExtension
     
     // Try fill array with UUIDs
     public static bool TryFill(this UUID[] array)
+
+    // Fill array with UUIDs using parallel processing
+    public static void FillParallel(this UUID[] array, int threshold = 1000)
+
+    // Try fill array with UUIDs using parallel processing
+    public static bool TryFillParallel(this UUID[] array, int threshold = 1000)
+
+    // Generate ordered sequence of UUIDs
+    public static UUID[] GenerateOrdered(int count, DateTimeOffset? startTime = null)
+
+    // Try generate ordered sequence of UUIDs
+    public static bool TryGenerateOrdered(int count, out UUID[]? result, DateTimeOffset? startTime = null)
 }`,
 
       exceptions: [
