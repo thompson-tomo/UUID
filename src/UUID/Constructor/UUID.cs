@@ -783,6 +783,46 @@ namespace System
         }
 
         /// <summary>
+        /// Determines whether the specified UUIDs are equal.
+        /// </summary>
+        /// <param name="first">First UUID to compare.</param>
+        /// <param name="second">Second UUID to compare.</param>
+        /// <returns>true if the specified UUIDs are equal; otherwise, false.</returns>
+        /// <remarks>
+        /// This method compares UUIDs based on their timestamp and random components.
+        /// It is useful for maintaining temporal ordering of UUIDs.
+        /// </remarks>
+        public static bool SecureEquals(UUID first, UUID second)
+        {
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            return CryptographicOperations.FixedTimeEquals(first.ToByteArray(), second.ToByteArray());
+#else
+            if (ReferenceEquals(first, second))
+            {
+                return true;
+            }
+
+            //if (first is null || second is null) return false;
+
+            byte[] firstBytes = first.ToByteArray();
+            byte[] secondBytes = second.ToByteArray();
+
+            if (firstBytes.Length != secondBytes.Length)
+            {
+                return false;
+            }
+
+            int result = 0;
+            for (int i = 0; i < firstBytes.Length; i++)
+            {
+                result |= firstBytes[i] ^ secondBytes[i];
+            }
+
+            return result == 0;
+#endif
+        }
+
+        /// <summary>
         /// Returns a hash code for this UUID.
         /// </summary>
         /// <returns>A hash code for the current UUID.</returns>

@@ -186,6 +186,8 @@ namespace UUIDDemo
 
             Console.WriteLine($"UUID 1: {id1}");
             Console.WriteLine($"UUID 2: {id2}");
+            Console.WriteLine($"Regular Equals: {id1.Equals(id2)}");
+            Console.WriteLine($"Secure Equals: {UUID.SecureEquals(id1, id2)}");
             Console.WriteLine($"UUID1 < UUID2: {id1 < id2}");
             Console.WriteLine($"UUID1 <= UUID2: {id1 <= id2}");
             Console.WriteLine($"UUID1 > UUID2: {id1 > id2}");
@@ -309,9 +311,13 @@ namespace UUIDDemo
                         UUID uuid = UUID.New();
                         lock (set)
                         {
-                            if (!set.Add(uuid))
+                            if (set.Any(existing => UUID.SecureEquals(existing, uuid)))
                             {
-                                Console.WriteLine("Warning: UUID collision detected!");
+                                Console.WriteLine("Warning: UUID collision detected (using SecureEquals)!");
+                            }
+                            else
+                            {
+                                set.Add(uuid);
                             }
                         }
                     }
@@ -369,6 +375,40 @@ namespace UUIDDemo
             Console.WriteLine($"Generation completed in {(endTime - startTime).TotalMilliseconds:F2}ms");
             Console.WriteLine($"First UUID: {uuids2[0]}");
             Console.WriteLine($"Last UUID: {uuids2[batchSize - 1]}");
+
+            Console.WriteLine("\n18. Secure Comparison Demo:");
+            UUID secureId1 = UUID.New();
+            UUID secureId2 = UUID.New();
+            UUID secureId3 = secureId1; // Copy of UUID 1
+
+            Console.WriteLine($"UUID 1: {secureId1}");
+            Console.WriteLine($"UUID 2: {secureId2}");
+            Console.WriteLine($"UUID 3 (copy of UUID 1): {secureId3}");
+
+            Console.WriteLine("\nRegular vs Secure Comparison Results:");
+            Console.WriteLine($"Regular Equals (1 vs 2): {secureId1.Equals(secureId2)}");
+            Console.WriteLine($"Secure Equals (1 vs 2): {UUID.SecureEquals(secureId1, secureId2)}");
+            Console.WriteLine($"Regular Equals (1 vs 3): {secureId1.Equals(secureId3)}");
+            Console.WriteLine($"Secure Equals (1 vs 3): {UUID.SecureEquals(secureId1, secureId3)}");
+
+            // Timing comparison
+            Console.WriteLine("\nTiming Comparison (Regular vs Secure):");
+            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                _ = secureId1.Equals(secureId2);
+            }
+            sw.Stop();
+            Console.WriteLine($"Regular Equals (1000 iterations): {sw.ElapsedTicks} ticks");
+
+            sw.Restart();
+            for (int i = 0; i < 1000; i++)
+            {
+                _ = UUID.SecureEquals(secureId1, secureId2);
+            }
+            sw.Stop();
+            Console.WriteLine($"Secure Equals (1000 iterations): {sw.ElapsedTicks} ticks");
         }
     }
 }
