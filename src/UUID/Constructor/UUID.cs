@@ -790,6 +790,7 @@ namespace System
         /// <remarks>
         /// This method uses a constant-time comparison to prevent timing attacks.
         /// It is more secure but slower than regular Equals method.
+        /// The comparison is done in constant time regardless of how many bytes match.
         /// </remarks>
         public bool SecureEquals(UUID other)
         {
@@ -820,14 +821,31 @@ namespace System
         }
 
         /// <summary>
-        /// Determines whether the specified UUIDs are equal.
+        /// Determines whether the specified object is equal to the current UUID using a secure comparison.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current UUID.</param>
+        /// <returns>true if the specified object is a UUID and equal to the current UUID using secure comparison; otherwise, false.</returns>
+        /// <remarks>
+        /// This method uses a constant-time comparison to prevent timing attacks.
+        /// It is more secure but slower than regular Equals method.
+        /// If the object is not a UUID, returns false without performing comparison.
+        /// </remarks>
+        public bool SecureEquals(object? obj)
+        {
+            return obj is UUID other && SecureEquals(other);
+        }
+
+        /// <summary>
+        /// Determines whether two UUIDs are equal using a secure comparison.
         /// </summary>
         /// <param name="first">First UUID to compare.</param>
         /// <param name="second">Second UUID to compare.</param>
-        /// <returns>true if the specified UUIDs are equal; otherwise, false.</returns>
+        /// <returns>true if both UUIDs are equal; otherwise, false.</returns>
         /// <remarks>
-        /// This method compares UUIDs based on their timestamp and random components.
-        /// It is useful for maintaining temporal ordering of UUIDs.
+        /// This method uses a constant-time comparison to prevent timing attacks.
+        /// It is more secure but slower than regular equality comparison.
+        /// The comparison is done in constant time regardless of how many bytes match,
+        /// making it resistant to timing-based side-channel attacks.
         /// </remarks>
         public static bool SecureEquals(UUID first, UUID second)
         {
