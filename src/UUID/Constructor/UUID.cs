@@ -783,6 +783,43 @@ namespace System
         }
 
         /// <summary>
+        /// Determines whether the specified UUID is equal to the current UUID using a secure comparison.
+        /// </summary>
+        /// <param name="other">The UUID to compare with the current UUID.</param>
+        /// <returns>true if the specified UUID is equal to the current UUID; otherwise, false.</returns>
+        /// <remarks>
+        /// This method uses a constant-time comparison to prevent timing attacks.
+        /// It is more secure but slower than regular Equals method.
+        /// </remarks>
+        public bool SecureEquals(UUID other)
+        {
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            return CryptographicOperations.FixedTimeEquals(ToByteArray(), other.ToByteArray());
+#else
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            byte[] thisBytes = ToByteArray();
+            byte[] otherBytes = other.ToByteArray();
+
+            if (thisBytes.Length != otherBytes.Length)
+            {
+                return false;
+            }
+
+            int result = 0;
+            for (int i = 0; i < thisBytes.Length; i++)
+            {
+                result |= thisBytes[i] ^ otherBytes[i];
+            }
+
+            return result == 0;
+#endif
+        }
+
+        /// <summary>
         /// Determines whether the specified UUIDs are equal.
         /// </summary>
         /// <param name="first">First UUID to compare.</param>
