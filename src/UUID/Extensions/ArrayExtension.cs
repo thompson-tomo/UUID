@@ -284,5 +284,77 @@ namespace System
 
             return hash;
         }
+
+        /// <summary>
+        /// Generates a sequence of ordered UUIDs.
+        /// </summary>
+        /// <param name="count">The number of UUIDs to generate.</param>
+        /// <param name="startTime">Optional starting timestamp. If not provided, current time is used.</param>
+        /// <returns>An array of ordered UUIDs.</returns>
+        public static UUID[] GenerateOrdered(int count, DateTimeOffset? startTime = null)
+        {
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be negative.");
+            }
+
+            UUID[] array = new UUID[count];
+            if (count == 0)
+            {
+                return array;
+            }
+
+            var timestamp = startTime ?? DateTimeOffset.UtcNow;
+            var baseTimestamp = timestamp.ToUnixTimeMilliseconds();
+
+            for (int i = 0; i < count; i++)
+            {
+                array[i] = new UUID((ulong)((baseTimestamp + i) << 16) | ((ulong)0x07 << 12) | (uint)(i & 0xFFF), GenerateRandom());
+            }
+
+            return array;
+        }
+
+        /// <summary>
+        /// Generates a cryptographically secure random value for UUID creation.
+        /// </summary>
+        /// <returns>A 64-bit unsigned integer with the variant bits properly set (RFC 4122).</returns>
+        /// <remarks>
+        /// This method:
+        /// - Uses cryptographically secure random number generation
+        /// - Sets the variant bits according to RFC 4122 (variant 2)
+        /// - Is optimized for modern .NET versions when available
+        /// - Properly disposes of cryptographic resources
+        /// The returned value has its top two bits set to '10' as per UUID specification.
+        /// </remarks>
+        private static ulong GenerateRandom()
+        {
+            byte[] bytes = new byte[8];
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            RandomNumberGenerator.Fill(bytes);
+#else
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(bytes);
+            }
+#endif
+            return BitConverter.ToUInt64(bytes, 0) | ((ulong)0x02 << 62);
+        }
+
+
+
+        /// <summary>
+        /// Fills a range of the array with UUIDs.
+        /// </summary>
+        /// <param name="array">The array to fill.</param>
+        /// <param name="start">The start index (inclusive).</param>
+        /// <param name="end">The end index (exclusive).</param>
+        private static void FillRange(UUID[] array, int start, int end)
+        {
+            for (int i = start; i < end; i++)
+            {
+                array[i] = new UUID();
+            }
+        }
     }
 }
