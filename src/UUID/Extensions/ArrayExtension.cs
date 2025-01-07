@@ -1,5 +1,4 @@
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 namespace System
 {
@@ -267,8 +266,8 @@ namespace System
                     return true;
                 }
 
-                var timestamp = startTime ?? DateTimeOffset.UtcNow;
-                var baseTimestamp = timestamp.ToUnixTimeMilliseconds();
+                DateTimeOffset timestamp = startTime ?? DateTimeOffset.UtcNow;
+                long baseTimestamp = timestamp.ToUnixTimeMilliseconds();
 
                 for (int i = 0; i < count; i++)
                 {
@@ -441,7 +440,7 @@ namespace System
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
             RandomNumberGenerator.Fill(bytes);
 #else
-            using (var rng = RandomNumberGenerator.Create())
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(bytes);
             }
@@ -469,7 +468,7 @@ namespace System
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
             RandomNumberGenerator.Fill(randomBytes);
 #else
-            using (var rng = RandomNumberGenerator.Create())
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(randomBytes);
             }
