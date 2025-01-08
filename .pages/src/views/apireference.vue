@@ -134,12 +134,12 @@ export default {
         {
           name: 'Random',
           type: 'ulong',
-          description: 'Gets the random component of the UUID. Ensures uniqueness even when UUIDs are generated within the same timestamp. Contains 64 bits of cryptographically secure random data.'
+          description: 'Gets the cryptographically secure random component'
         },
         {
           name: 'Timestamp',
           type: 'ulong',
-          description: 'Gets the timestamp component of the UUID. Contains the Unix timestamp in milliseconds, version bits, and counter bits for ordering.'
+          description: 'Gets the Unix timestamp with version and counter bits'
         }
       ],
 
