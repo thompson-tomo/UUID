@@ -124,22 +124,75 @@ public class MyDbContext : DbContext
     }
 }
 
-// Dapper Type Handler
-public class UUIDTypeHandler : SqlMapper.TypeHandler<UUID>
+// Dapper Type Handlers
+
+// Binary Handler (most efficient, stores as 16 bytes)
+public class BinaryUUIDHandler : SqlMapper.TypeHandler<UUID>
 {
     public override UUID Parse(object value)
     {
-        return UUID.Parse((string)value);
+        if (value is byte[] bytes)
+        {
+            return UUID.FromByteArray(bytes);
+        }
+
+        return UUID.Empty;
     }
 
     public override void SetValue(IDbDataParameter parameter, UUID value)
     {
-        parameter.Value = value.ToString();
+        parameter.Size = 16;
+        parameter.DbType = DbType.Binary;
+        parameter.Value = value.ToByteArray();
     }
 }
 
-// Register the Dapper handler
-SqlMapper.AddTypeHandler(new UUIDTypeHandler());`
+// String Handler (stores as 32-character string)
+public class StringUUIDHandler : SqlMapper.TypeHandler<UUID>
+{
+    public override UUID Parse(object value)
+    {
+        if (value is string str)
+        {
+            return UUID.Parse(str);
+        }
+
+        return UUID.Empty;
+    }
+
+    public override void SetValue(IDbDataParameter parameter, UUID value)
+    {
+        parameter.Size = 32;
+        parameter.Value = value.ToString();
+        parameter.DbType = DbType.StringFixedLength;
+    }
+}
+
+// Base64 Handler (stores as base64 string)
+public class Base64UUIDHandler : SqlMapper.TypeHandler<UUID>
+{
+    public override UUID Parse(object value)
+    {
+        if (value is string base64)
+        {
+            return UUID.FromBase64(base64);
+        }
+
+        return UUID.Empty;
+    }
+
+    public override void SetValue(IDbDataParameter parameter, UUID value)
+    {
+        parameter.Size = 24;
+        parameter.Value = value.ToBase64();
+        parameter.DbType = DbType.StringFixedLength;
+    }
+}
+
+// Register the handlers
+SqlMapper.AddTypeHandler(new BinaryUUIDHandler());  // For binary storage
+SqlMapper.AddTypeHandler(new StringUUIDHandler());  // For string storage
+SqlMapper.AddTypeHandler(new Base64UUIDHandler());  // For base64 storage`
       },
       stringFormat: {
         code: `// Common string formats supported
