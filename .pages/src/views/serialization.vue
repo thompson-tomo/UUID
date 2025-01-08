@@ -580,18 +580,12 @@ UUID decompressed = MessagePackSerializer.Deserialize<UUID>(
 
       dapperExamples: [
         {
-          title: 'Installation and Setup',
-          code: `// Install NuGet package
-dotnet add package UUID.Serialization.Dapper
-
-// Register handlers
-using UUID.Serialization.Dapper.Handlers;
-
-// Register all handlers
+          title: 'Handler Registration',
+          code: `// Register all handlers
 SqlMapper.AddTypeHandler(new BinaryUUIDHandler());  // For binary storage (most efficient)
 SqlMapper.AddTypeHandler(new StringUUIDHandler());  // For string storage
 SqlMapper.AddTypeHandler(new Base64UUIDHandler());  // For base64 storage`,
-          description: 'Install the package and register the type handlers for different storage formats.'
+          description: 'Register the type handlers for different UUID storage formats in your application startup.'
         },
         {
           title: 'Database Schema Examples',
