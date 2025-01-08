@@ -43,6 +43,16 @@
       </div>
     </section>
 
+    <section id="dapper">
+      <h2>Dapper Examples</h2>
+
+      <div class="example-card" v-for="(example, index) in dapperExamples" :key="'dapper-' + index">
+        <h3>{{ example.title }}</h3>
+        <code-block>{{ example.code }}</code-block>
+        <p>{{ example.description }}</p>
+      </div>
+    </section>
+
     <section id="advanced-examples">
       <h2>Advanced Examples</h2>
 
@@ -104,6 +114,11 @@ export default {
           title: 'MessagePack Package',
           command: 'dotnet add package UUID.Serialization.MessagePack',
           description: 'Install the MessagePack serialization package via NuGet for high-performance binary serialization.'
+        },
+        {
+          title: 'Dapper Package',
+          command: 'dotnet add package UUID.Serialization.Dapper',
+          description: 'Install the Dapper serialization package via NuGet for database integration.'
         }
       ],
 
@@ -560,6 +575,92 @@ UUID decompressed = MessagePackSerializer.Deserialize<UUID>(
     compressed, 
     options.WithCompression(MessagePackCompression.Lz4BlockArray));`,
           description: 'Advanced MessagePack configuration examples including compression and custom resolvers.'
+        }
+      ],
+
+      dapperExamples: [
+        {
+          title: 'Installation and Setup',
+          code: `// Install NuGet package
+dotnet add package UUID.Serialization.Dapper
+
+// Register handlers
+using UUID.Serialization.Dapper.Handlers;
+
+// Register all handlers
+SqlMapper.AddTypeHandler(new BinaryUUIDHandler());  // For binary storage (most efficient)
+SqlMapper.AddTypeHandler(new StringUUIDHandler());  // For string storage
+SqlMapper.AddTypeHandler(new Base64UUIDHandler());  // For base64 storage`,
+          description: 'Install the package and register the type handlers for different storage formats.'
+        },
+        {
+          title: 'Database Schema Examples',
+          code: `// For binary storage (most efficient, 16 bytes)
+CREATE TABLE Users (
+    Id INTEGER PRIMARY KEY,
+    UserId BLOB  -- SQLite
+    -- or: UserId BINARY(16)  -- SQL Server
+    -- or: UserId BYTEA       -- PostgreSQL
+);
+
+// For string storage (32 characters)
+CREATE TABLE AuditLogs (
+    Id INTEGER PRIMARY KEY,
+    UserId CHAR(32)  -- Fixed-length string
+);
+
+// For base64 storage (24 characters)
+CREATE TABLE Sessions (
+    Id INTEGER PRIMARY KEY,
+    UserId VARCHAR(24)  -- Base64 encoded
+);`,
+          description: 'Example database schemas for different UUID storage formats.'
+        },
+        {
+          title: 'Basic CRUD Operations',
+          code: `using var connection = new SqliteConnection("Data Source=app.db");
+
+// Model class
+public class User
+{
+    public int Id { get; set; }
+    public UUID UserId { get; set; }
+}
+
+// Insert
+var user = new User { UserId = UUID.New() };
+connection.Execute(
+    "INSERT INTO Users (UserId) VALUES (@UserId)",
+    user);
+
+// Query single
+var result = connection.QuerySingle<User>(
+    "SELECT * FROM Users WHERE UserId = @UserId",
+    new { UserId = user.UserId });
+
+// Query multiple
+var users = connection.Query<User>(
+    "SELECT * FROM Users WHERE UserId IN @UserIds",
+    new { UserIds = new[] { UUID.New(), UUID.New() } });`,
+          description: 'Basic CRUD operations using Dapper with UUID values.'
+        },
+        {
+          title: 'Using Different Storage Formats',
+          code: `// Binary (default, most efficient)
+connection.Execute(@"
+    INSERT INTO Users (UserId) VALUES (@UserId)",
+    new { UserId = UUID.New() });
+
+// String (32 characters)
+connection.Execute(@"
+    INSERT INTO AuditLogs (UserId) VALUES (@UserId)",
+    new { UserId = UUID.New() });
+
+// Base64 (24 characters)
+connection.Execute(@"
+    INSERT INTO Sessions (UserId) VALUES (@UserId)",
+    new { UserId = UUID.New() });`,
+          description: 'Examples of using different UUID storage formats with their respective handlers.'
         }
       ]
     }
