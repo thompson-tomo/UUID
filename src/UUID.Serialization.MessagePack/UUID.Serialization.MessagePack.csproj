@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net48;net6.0;net7.0;net8.0;net9.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+        <DefaultLanguage>en-GB</DefaultLanguage>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>System</RootNamespace>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ApplicationIcon>Resources\UUID.ico</ApplicationIcon>
+        <Version>1.1.0</Version>
+        <AssemblyVersion>$(Version)</AssemblyVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>UUID.Serialization.MessagePack</Title>
+        <PackageId>UUID.Serialization.MessagePack</PackageId>
+        <Authors>Taiizor</Authors>
+        <Copyright>Copyright $([System.DateTime]::Today.ToString(yyyy)) $(Authors)</Copyright>
+        <Summary>High-performance MessagePack serialization support for UUID library with efficient binary format.</Summary>
+        <Description>Provides MessagePack serialization support for the UUID library, enabling high-performance binary serialization and deserialization of UUID values. Features include compact binary representation, thread-safe implementation, comprehensive error handling, and seamless integration with MessagePack's type resolution system. Optimized for both performance and memory efficiency across different .NET platforms.</Description>
+        <PackageReadmeFile>README.MD</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes>All changes are detailed at https://github.com/Taiizor/UUID/wiki/Changelog.</PackageReleaseNotes>
+        <PackageTags>uuid guid id msgpack messagepack binary formatter serialization converter dotnet</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageProjectUrl>https://uuid.soferity.com</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>git://github.com/Taiizor/UUID</RepositoryUrl>
+        <PackageDescription>$(Description)</PackageDescription>
+        <PackageIcon>UUID.png</PackageIcon>
+        <Company>$(Authors)</Company>
+        <Owners>$(Authors)</Owners>
+        <AnalysisLevel>preview</AnalysisLevel>
+        <LangVersion>preview</LangVersion>
+        <NeutralLanguage>$(DefaultLanguage)</NeutralLanguage>
+        <FileVersion>$(Version)</FileVersion>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <Configurations>Debug;Release</Configurations>
+        <NoWarn>1587,1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\UUID\UUID.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub">
+            <Version>8.0.0</Version>
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MessagePack" Version="3.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.MD">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="Resources\UUID.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Properties\" />
+    </ItemGroup>
+
+</Project>
