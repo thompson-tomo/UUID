@@ -33,6 +33,16 @@
       </div>
     </section>
 
+    <section id="messagepack">
+      <h2>MessagePack Examples</h2>
+
+      <div class="example-card" v-for="(example, index) in messagePackExamples" :key="'mp-' + index">
+        <h3>{{ example.title }}</h3>
+        <code-block>{{ example.code }}</code-block>
+        <p>{{ example.description }}</p>
+      </div>
+    </section>
+
     <section id="advanced-examples">
       <h2>Advanced Examples</h2>
 
@@ -89,6 +99,11 @@ export default {
           title: 'Newtonsoft.Json Package',
           command: 'dotnet add package UUID.Serialization.Newtonsoft',
           description: 'Install the Newtonsoft.Json serialization package via NuGet.'
+        },
+        {
+          title: 'MessagePack Package',
+          command: 'dotnet add package UUID.Serialization.MessagePack',
+          description: 'Install the MessagePack serialization package via NuGet for high-performance binary serialization.'
         }
       ],
 
@@ -319,8 +334,33 @@ public void ConfigureServices(IServiceCollection services)
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.Converters.Add(new UUIDConverter());
-            });`,
-          description: 'Example of configuring UUID serialization globally in an ASP.NET Core application.'
+            });
+}
+
+// MessagePack in ASP.NET Core
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers()
+            .AddMvcOptions(options => 
+            {
+                // Register MessagePack formatters
+                options.OutputFormatters.Add(new MessagePackOutputFormatter(
+                    MessagePackSerializerOptions.Standard.WithResolver(UUIDResolver.Instance)));
+                options.InputFormatters.Add(new MessagePackInputFormatter(
+                    MessagePackSerializerOptions.Standard.WithResolver(UUIDResolver.Instance)));
+            });
+
+    // Or configure MessagePack globally
+    services.AddMessagePackFormatters(options => 
+    {
+        options.SerializerOptions = options.SerializerOptions
+            .WithResolver(CompositeResolver.Create(
+                UUIDResolver.Instance,
+                StandardResolver.Instance
+            ));
+    });
+}`,
+          description: 'Example of configuring UUID serialization globally in an ASP.NET Core application for different serialization libraries.'
         },
         {
           title: 'Custom Serialization Format',
@@ -373,6 +413,153 @@ catch (JsonReaderException ex)
     Console.WriteLine($"Failed to deserialize UUID: {ex.Message}");
 }`,
           description: 'Example of handling invalid UUID deserialization with Newtonsoft.Json.'
+        },
+        {
+          title: 'MessagePack Error Handling',
+          code: `try
+{
+    // Invalid byte array
+    byte[] invalidBytes = new byte[] { 0x01, 0x02, 0x03 };
+    
+    // This will throw an exception
+    UUID uuid = MessagePackSerializer.Deserialize<UUID>(invalidBytes, options);
+}
+catch (MessagePackSerializationException ex)
+{
+    Console.WriteLine($"Failed to deserialize UUID: {ex.Message}");
+}
+
+// Handling multiple error types
+try
+{
+    byte[] invalidData = GetInvalidData(); // Some invalid data source
+    UUID uuid = MessagePackSerializer.Deserialize<UUID>(invalidData, options);
+}
+catch (MessagePackSerializationException ex)
+{
+    Console.WriteLine($"Serialization format error: {ex.Message}");
+}
+catch (InvalidOperationException ex)
+{
+    Console.WriteLine($"Invalid operation: {ex.Message}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Unexpected error: {ex.Message}");
+}
+
+// Using TryDeserialize (if available in your version)
+byte[] data = GetData(); // Some data source
+if (!MessagePackSerializer.TryDeserialize<UUID>(data, options, out UUID? result))
+{
+    Console.WriteLine("Failed to deserialize UUID");
+    return;
+}
+
+// result now contains the deserialized UUID`,
+          description: 'Example of handling various error scenarios when using MessagePack serialization, including invalid data and format errors.'
+        }
+      ],
+
+      messagePackExamples: [
+        {
+          title: 'Basic Serialization',
+          code: `using MessagePack;
+
+// Configure MessagePack resolver
+var options = MessagePackSerializerOptions.Standard
+    .WithResolver(UUIDResolver.Instance);
+
+// Create a UUID
+var uuid = UUID.New();
+
+// Serialize to byte array
+byte[] bytes = MessagePackSerializer.Serialize(uuid, options);
+
+// Deserialize from byte array
+UUID deserialized = MessagePackSerializer.Deserialize<UUID>(bytes, options);`,
+          description: 'Basic example of UUID serialization and deserialization using MessagePack.'
+        },
+        {
+          title: 'Collection Serialization',
+          code: `using MessagePack;
+using MessagePack.Resolvers;
+
+// Configure MessagePack resolver
+var options = MessagePackSerializerOptions.Standard
+    .WithResolver(CompositeResolver.Create(
+      UUIDResolver.Instance,
+      StandardResolver.Instance
+    ));
+
+// Create an array of UUIDs
+UUID[] uuids = new[] { UUID.New(), UUID.New(), UUID.New() };
+
+// Serialize array to byte array
+byte[] bytes = MessagePackSerializer.Serialize(uuids, options);
+
+// Deserialize array from byte array
+UUID[] deserializedArray = MessagePackSerializer.Deserialize<UUID[]>(bytes, options);`,
+          description: 'Example of serializing and deserializing arrays of UUIDs using MessagePack.'
+        },
+        {
+          title: 'Model Serialization',
+          code: `using MessagePack;
+using MessagePack.Resolvers;
+
+// Configure MessagePack resolver
+var options = MessagePackSerializerOptions.Standard
+    .WithResolver(CompositeResolver.Create(
+      UUIDResolver.Instance,
+      StandardResolver.Instance
+    ));
+
+[MessagePackObject]
+public class User
+{
+    [Key(0)]
+    public UUID Id { get; set; }
+
+    [Key(1)]
+    public string Name { get; set; }
+}
+
+var user = new User 
+{ 
+    Id = UUID.New(),
+    Name = "John Doe"
+};
+
+// Serialize model to byte array
+byte[] bytes = MessagePackSerializer.Serialize(user, options);
+
+// Deserialize model from byte array
+User deserializedUser = MessagePackSerializer.Deserialize<User>(bytes, options);`,
+          description: 'Example of using UUIDs in model classes with MessagePack serialization.'
+        },
+        {
+          title: 'Advanced Configuration',
+          code: `using MessagePack;
+using MessagePack.Resolvers;
+
+// Custom resolver configuration
+var resolver = CompositeResolver.Create(
+    UUIDResolver.Instance,
+    StandardResolver.Instance
+);
+
+var options = MessagePackSerializerOptions.Standard
+    .WithResolver(resolver);
+
+// Using lz4 compression
+byte[] compressed = MessagePackSerializer.Serialize(UUID.New(), 
+    options.WithCompression(MessagePackCompression.Lz4BlockArray));
+
+// Deserialize compressed data
+UUID decompressed = MessagePackSerializer.Deserialize<UUID>(
+    compressed, 
+    options.WithCompression(MessagePackCompression.Lz4BlockArray));`,
+          description: 'Advanced MessagePack configuration examples including compression and custom resolvers.'
         }
       ]
     }
