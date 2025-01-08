@@ -58,12 +58,12 @@ UserModel deserializedUser = JsonSerializer.Deserialize<UserModel>(json, options
 
 ## Features
 
-- Seamless integration with System.Text.Json
+- Support for null handling
+- Thread-safe implementation
 - Efficient string conversion
 - Comprehensive error handling
-- Thread-safe implementation
 - Full documentation with XML comments
-- Support for null handling
+- Seamless integration with System.Text.Json
 - Custom error messages for better debugging
 
 ## Error Handling
@@ -71,14 +71,14 @@ UserModel deserializedUser = JsonSerializer.Deserialize<UserModel>(json, options
 The converter provides detailed error messages for common scenarios:
 
 - Null values: "Cannot convert null value to UUID"
-- Invalid string formats: Includes the attempted value in error message
-- Empty strings: "Cannot convert empty string to UUID"
 - Incorrect JSON types: Shows expected vs actual type
+- Empty strings: "Cannot convert empty string to UUID"
+- Invalid string formats: Includes the attempted value in error message
 
 ## Requirements
 
-- .NET 9.0 or later
 - UUID library
+- .NET 9.0 or later
 - System.Text.Json 9.0.0 or later
 
 ## Contributing

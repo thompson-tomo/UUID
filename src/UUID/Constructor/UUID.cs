@@ -93,7 +93,7 @@ namespace System
         /// <summary>
         /// The timestamp component of the UUID.
         /// </summary>
-        internal readonly ulong _timestamp = timestamp;
+        public ulong Timestamp { get; } = timestamp;
 
         /// <summary>
         /// Characters used in Base32 encoding.
@@ -225,7 +225,7 @@ namespace System
         /// </returns>
         public static int CompareTimestamps(UUID a, UUID b)
         {
-            return a._timestamp.CompareTo(b._timestamp);
+            return a.Timestamp.CompareTo(b.Timestamp);
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace System
         /// <returns>The counter value used for ordering within the same millisecond.</returns>
         public ushort GetMonotonicCounter()
         {
-            return (ushort)(Random & 0xFFF); // Extract last 12 bits
+            return (ushort)(random & 0xFFF); // Extract last 12 bits
         }
 
         /// <summary>
@@ -348,9 +348,9 @@ namespace System
         /// </remarks>
         public bool IsOrderedAfter(UUID other)
         {
-            if (_timestamp != other._timestamp)
+            if (timestamp != other.Timestamp)
             {
-                return _timestamp > other._timestamp;
+                return timestamp > other.Timestamp;
             }
 
             return GetMonotonicCounter() > other.GetMonotonicCounter();
@@ -436,7 +436,7 @@ namespace System
         /// <summary>
         /// Gets the timestamp component of the UUID.
         /// </summary>
-        public DateTimeOffset Time => DateTimeOffset.FromUnixTimeMilliseconds((long)(_timestamp >> 16));
+        public DateTimeOffset Time => DateTimeOffset.FromUnixTimeMilliseconds((long)(timestamp >> 16));
 
         /// <summary>
         /// Returns a string representation of the UUID.
@@ -444,7 +444,7 @@ namespace System
         /// <returns>A string representation of the UUID.</returns>
         public override string ToString()
         {
-            return $"{_timestamp:X16}{Random:X16}";
+            return $"{timestamp:X16}{random:X16}";
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace System
         public long ToInt64()
         {
             // Use the timestamp as the base (48 bits)
-            long result = (long)(_timestamp >> 16); // Get the milliseconds part
+            long result = (long)(timestamp >> 16); // Get the milliseconds part
 
             // Generate a 15-bit hash from the full random component
             ulong fullRandom = random;
@@ -495,7 +495,7 @@ namespace System
         public string ToBase32()
         {
             char[] result = new char[26];
-            ulong value = _timestamp;
+            ulong value = timestamp;
 
             for (int i = 25; i >= 0; i--)
             {
@@ -626,7 +626,7 @@ namespace System
                 return false;
             }
 
-            BitConverter.TryWriteBytes(destination[..8], _timestamp);
+            BitConverter.TryWriteBytes(destination[..8], timestamp);
             BitConverter.TryWriteBytes(destination[8..], random);
 
             return true;
@@ -639,7 +639,7 @@ namespace System
                 return false;
             }
 
-            byte[] timestampBytes = BitConverter.GetBytes(_timestamp);
+            byte[] timestampBytes = BitConverter.GetBytes(timestamp);
             byte[] randomBytes = BitConverter.GetBytes(random);
 
             Array.Copy(timestampBytes, 0, destination, 0, 8);
@@ -778,7 +778,7 @@ namespace System
         /// <returns>true if the specified UUID is equal to the current UUID; otherwise, false.</returns>
         public bool Equals(UUID other)
         {
-            return _timestamp == other._timestamp && random == other.Random;
+            return timestamp == other.Timestamp && random == other.Random;
         }
 
         /// <summary>
@@ -894,7 +894,7 @@ namespace System
         {
             unchecked
             {
-                return (_timestamp.GetHashCode() * 397) ^ random.GetHashCode();
+                return (timestamp.GetHashCode() * 397) ^ random.GetHashCode();
             }
         }
 
@@ -910,7 +910,7 @@ namespace System
         /// </returns>
         public int CompareTo(UUID other)
         {
-            int result = _timestamp.CompareTo(other._timestamp);
+            int result = timestamp.CompareTo(other.Timestamp);
 
             return result != 0 ? result : random.CompareTo(other.Random);
         }

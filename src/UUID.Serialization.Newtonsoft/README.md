@@ -77,28 +77,28 @@ string json = JsonConvert.SerializeObject(user);
 
 ## Features
 
-- Seamless integration with Newtonsoft.Json
+- Support for null handling
+- Thread-safe implementation
 - Efficient string conversion
 - Comprehensive error handling
-- Thread-safe implementation
-- Full documentation with XML comments
-- Support for null handling
-- Custom error messages for better debugging
 - Support for JsonConverter attribute
+- Full documentation with XML comments
+- Seamless integration with Newtonsoft.Json
+- Custom error messages for better debugging
 
 ## Error Handling
 
 The converter provides detailed error messages for common scenarios:
 
 - Null values: "Cannot convert null value to UUID"
-- Invalid string formats: Includes the attempted value in error message
-- Empty strings: "Cannot convert empty string to UUID"
 - Incorrect JSON types: Shows expected vs actual type
+- Empty strings: "Cannot convert empty string to UUID"
+- Invalid string formats: Includes the attempted value in error message
 
 ## Requirements
 
-- .NET 9.0 or later
 - UUID library
+- .NET 9.0 or later
 - Newtonsoft.Json 13.0.3 or later
 
 ## Contributing
