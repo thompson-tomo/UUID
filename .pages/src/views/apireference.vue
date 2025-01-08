@@ -130,6 +130,16 @@ export default {
           name: 'Time',
           type: 'DateTimeOffset',
           description: 'Gets the timestamp embedded in the UUID (UUIDv7 only)'
+        },
+        {
+          name: 'Random',
+          type: 'ulong',
+          description: 'Gets the random component of the UUID. Ensures uniqueness even when UUIDs are generated within the same timestamp. Contains 64 bits of cryptographically secure random data.'
+        },
+        {
+          name: 'Timestamp',
+          type: 'ulong',
+          description: 'Gets the timestamp component of the UUID. Contains the Unix timestamp in milliseconds, version bits, and counter bits for ordering.'
         }
       ],
 
