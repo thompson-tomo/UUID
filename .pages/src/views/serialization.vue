@@ -101,6 +101,11 @@ export default {
     return {
       packages: [
         {
+          title: 'Microsoft.EntityFrameworkCore Package',
+          command: 'dotnet add package UUID.Serialization.Entity',
+          description: 'Install the Microsoft.EntityFrameworkCore integration package via NuGet for efficient UUID conversions in your database.'
+        },
+        {
           title: 'System.Text.Json Package',
           command: 'dotnet add package UUID.Serialization.System',
           description: 'Install the System.Text.Json serialization package via NuGet.'
