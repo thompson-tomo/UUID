@@ -1,86 +1,74 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace System
 {
     /// <summary>
-    /// Extension methods for configuring UUID value converters in Entity Framework Core.
+    /// Extension methods for configuring UUID conversions in Entity Framework Core.
     /// </summary>
     public static class ModelBuilderExtensions
     {
         /// <summary>
-        /// Configures the model builder to use binary storage for all UUID properties.
+        /// Configures all UUID properties to use binary storage format (16 bytes).
         /// </summary>
-        /// <param name="configurationBuilder">The model configuration builder.</param>
-        /// <returns>The model configuration builder for chaining.</returns>
-        public static ModelConfigurationBuilder UseUUIDAsBinary(this ModelConfigurationBuilder configurationBuilder)
+        /// <param name="modelBuilder">The model builder instance.</param>
+        /// <returns>The model builder instance for chaining.</returns>
+        public static ModelBuilder UseUUIDToBytesConverter(this ModelBuilder modelBuilder)
         {
-            configurationBuilder
-                .Properties<UUID>()
-                .HaveConversion<UUIDToBytesConverter>();
+            foreach (IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                IEnumerable<IMutableProperty> properties = entityType.GetProperties()
+                    .Where(p => p.ClrType == typeof(UUID));
 
-            return configurationBuilder;
+                foreach (IMutableProperty? property in properties)
+                {
+                    property.SetValueConverter(new UUIDToBytesConverter());
+                }
+            }
+
+            return modelBuilder;
         }
 
         /// <summary>
-        /// Configures the model builder to use string storage for all UUID properties.
+        /// Configures all UUID properties to use string storage format (32 characters).
         /// </summary>
-        /// <param name="configurationBuilder">The model configuration builder.</param>
-        /// <returns>The model configuration builder for chaining.</returns>
-        public static ModelConfigurationBuilder UseUUIDAsString(this ModelConfigurationBuilder configurationBuilder)
+        /// <param name="modelBuilder">The model builder instance.</param>
+        /// <returns>The model builder instance for chaining.</returns>
+        public static ModelBuilder UseUUIDToStringConverter(this ModelBuilder modelBuilder)
         {
-            configurationBuilder
-                .Properties<UUID>()
-                .HaveConversion<UUIDToStringConverter>();
+            foreach (IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                IEnumerable<IMutableProperty> properties = entityType.GetProperties()
+                    .Where(p => p.ClrType == typeof(UUID));
 
-            return configurationBuilder;
+                foreach (IMutableProperty? property in properties)
+                {
+                    property.SetValueConverter(new UUIDToStringConverter());
+                }
+            }
+
+            return modelBuilder;
         }
 
         /// <summary>
-        /// Configures the model builder to use base64 string storage for all UUID properties.
+        /// Configures all UUID properties to use base64 storage format (24 characters).
         /// </summary>
-        /// <param name="configurationBuilder">The model configuration builder.</param>
-        /// <returns>The model configuration builder for chaining.</returns>
-        public static ModelConfigurationBuilder UseUUIDAsBase64(this ModelConfigurationBuilder configurationBuilder)
+        /// <param name="modelBuilder">The model builder instance.</param>
+        /// <returns>The model builder instance for chaining.</returns>
+        public static ModelBuilder UseUUIDToBase64Converter(this ModelBuilder modelBuilder)
         {
-            configurationBuilder
-                .Properties<UUID>()
-                .HaveConversion<UUIDToBase64Converter>();
+            foreach (IMutableEntityType entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                IEnumerable<IMutableProperty> properties = entityType.GetProperties()
+                    .Where(p => p.ClrType == typeof(UUID));
 
-            return configurationBuilder;
-        }
+                foreach (IMutableProperty? property in properties)
+                {
+                    property.SetValueConverter(new UUIDToBase64Converter());
+                }
+            }
 
-        /// <summary>
-        /// Configures a specific property to use binary storage for UUID values.
-        /// </summary>
-        /// <typeparam name="TEntity">The entity type containing the property.</typeparam>
-        /// <param name="propertyBuilder">The property builder.</param>
-        /// <returns>The property builder for chaining.</returns>
-        public static PropertyBuilder<UUID> UseUUIDAsBinary<TEntity>(this PropertyBuilder<UUID> propertyBuilder)
-        {
-            return propertyBuilder.HasConversion<UUIDToBytesConverter>();
-        }
-
-        /// <summary>
-        /// Configures a specific property to use string storage for UUID values.
-        /// </summary>
-        /// <typeparam name="TEntity">The entity type containing the property.</typeparam>
-        /// <param name="propertyBuilder">The property builder.</param>
-        /// <returns>The property builder for chaining.</returns>
-        public static PropertyBuilder<UUID> UseUUIDAsString<TEntity>(this PropertyBuilder<UUID> propertyBuilder)
-        {
-            return propertyBuilder.HasConversion<UUIDToStringConverter>();
-        }
-
-        /// <summary>
-        /// Configures a specific property to use base64 string storage for UUID values.
-        /// </summary>
-        /// <typeparam name="TEntity">The entity type containing the property.</typeparam>
-        /// <param name="propertyBuilder">The property builder.</param>
-        /// <returns>The property builder for chaining.</returns>
-        public static PropertyBuilder<UUID> UseUUIDAsBase64<TEntity>(this PropertyBuilder<UUID> propertyBuilder)
-        {
-            return propertyBuilder.HasConversion<UUIDToBase64Converter>();
+            return modelBuilder;
         }
     }
 }
