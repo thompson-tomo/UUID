@@ -112,6 +112,9 @@ Guid toGuid = uuid;           // Implicit conversion`
       databaseMigration: {
         code: `// Entity Framework Configuration
 
+// Note: The following examples require the UUID.Serialization.Entity package
+// Install via: dotnet add package UUID.Serialization.Entity
+
 // Option 1: Per-Property Configuration
 public class MyDbContext : DbContext
 {
@@ -138,6 +141,20 @@ public class MyDbContext : DbContext
         
         // or use base64 format (24 chars)
         // configurationBuilder.UseUUIDAsBase64();
+    }
+}
+
+// Option 3: Manual Configuration (if you don't want to use UUID.Serialization.Entity)
+public class MyDbContext : DbContext
+{
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<MyEntity>()
+            .Property(e => e.Id)
+            .HasConversion(
+                uuid => uuid.ToString(),  // Convert to string when saving
+                str => UUID.Parse(str)    // Parse from string when loading
+            );
     }
 }
 
