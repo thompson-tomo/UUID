@@ -5,9 +5,12 @@ namespace UUIDSerializationEntityTests
 {
     public class TestDbContext : DbContext
     {
-        public TestDbContext(DbContextOptions<TestDbContext> options)
+        private readonly Action<ModelBuilder>? _onModelCreating;
+
+        public TestDbContext(DbContextOptions<TestDbContext> options, Action<ModelBuilder>? onModelCreating = null)
             : base(options)
         {
+            _onModelCreating = onModelCreating;
         }
 
         public DbSet<TestEntity> TestEntities { get; set; }
@@ -19,16 +22,17 @@ namespace UUIDSerializationEntityTests
             modelBuilder.Entity<TestEntity>(entity =>
             {
                 entity.ToTable("TestEntities");
-
-                entity.Property(e => e.ByteUUID)
-                    .HasConversion<UUIDToBytesConverter>();
-
-                entity.Property(e => e.StringUUID)
-                    .HasConversion<UUIDToStringConverter>();
-
-                entity.Property(e => e.Base64UUID)
-                    .HasConversion<UUIDToBase64Converter>();
             });
+
+            _onModelCreating?.Invoke(modelBuilder);
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            base.ConfigureConventions(configurationBuilder);
+
+            // Default to binary storage
+            configurationBuilder.UseUUIDAsBinary();
         }
     }
 }

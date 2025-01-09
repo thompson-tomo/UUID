@@ -75,7 +75,7 @@ namespace UUIDSerializationEntityTests
         {
             // Arrange
             UUID originalUuid = UUID.New();
-            UUID newUuid = UUID.New();
+            UUID New = UUID.New();
 
             TestEntity entity = new() { ByteUUID = originalUuid };
 
@@ -83,14 +83,14 @@ namespace UUIDSerializationEntityTests
             _context.TestEntities.Add(entity);
             await _context.SaveChangesAsync();
 
-            entity.ByteUUID = newUuid;
+            entity.ByteUUID = New;
             await _context.SaveChangesAsync();
 
             await _context.Entry(entity).ReloadAsync();
 
             // Assert
-            Assert.Equal(newUuid, entity.ByteUUID);
-            Assert.Equal(newUuid.ToByteArray(), await GetRawBytesFromDatabase("ByteUUID", entity.Id));
+            Assert.Equal(New, entity.ByteUUID);
+            Assert.Equal(New.ToByteArray(), await GetRawBytesFromDatabase("ByteUUID", entity.Id));
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace UUIDSerializationEntityTests
         {
             // Arrange
             UUID originalUuid = UUID.New();
-            UUID newUuid = UUID.New();
+            UUID New = UUID.New();
 
             TestEntity entity = new() { StringUUID = originalUuid };
 
@@ -152,14 +152,14 @@ namespace UUIDSerializationEntityTests
             _context.TestEntities.Add(entity);
             await _context.SaveChangesAsync();
 
-            entity.StringUUID = newUuid;
+            entity.StringUUID = New;
             await _context.SaveChangesAsync();
 
             await _context.Entry(entity).ReloadAsync();
 
             // Assert
-            Assert.Equal(newUuid, entity.StringUUID);
-            Assert.Equal(newUuid.ToString(), await GetRawValueFromDatabase("StringUUID", entity.Id));
+            Assert.Equal(New, entity.StringUUID);
+            Assert.Equal(New.ToString(), await GetRawValueFromDatabase("StringUUID", entity.Id));
         }
 
         [Fact]
@@ -213,7 +213,7 @@ namespace UUIDSerializationEntityTests
         {
             // Arrange
             UUID originalUuid = UUID.New();
-            UUID newUuid = UUID.New();
+            UUID New = UUID.New();
 
             TestEntity entity = new() { Base64UUID = originalUuid };
 
@@ -221,14 +221,14 @@ namespace UUIDSerializationEntityTests
             _context.TestEntities.Add(entity);
             await _context.SaveChangesAsync();
 
-            entity.Base64UUID = newUuid;
+            entity.Base64UUID = New;
             await _context.SaveChangesAsync();
 
             await _context.Entry(entity).ReloadAsync();
 
             // Assert
-            Assert.Equal(newUuid, entity.Base64UUID);
-            Assert.Equal(newUuid.ToBase64(), await GetRawValueFromDatabase("Base64UUID", entity.Id));
+            Assert.Equal(New, entity.Base64UUID);
+            Assert.Equal(New.ToBase64(), await GetRawValueFromDatabase("Base64UUID", entity.Id));
         }
 
         [Fact]
@@ -264,7 +264,24 @@ namespace UUIDSerializationEntityTests
             command.CommandText = $"SELECT {columnName} FROM TestEntities WHERE Id = @Id";
             command.Parameters.AddWithValue("@Id", id);
 
-            return (string)await command.ExecuteScalarAsync();
+            object? result = await command.ExecuteScalarAsync();
+            if (result is byte[] bytes)
+            {
+                if (columnName.Contains("Base64"))
+                {
+                    return Convert.ToBase64String(bytes);
+                }
+                else if (columnName.Contains("String"))
+                {
+                    UUID uuid = UUID.FromByteArray(bytes);
+                    return uuid.ToString();
+                }
+                else
+                {
+                    return BitConverter.ToString(bytes).Replace("-", "");
+                }
+            }
+            return result?.ToString() ?? string.Empty;
         }
 
         private async Task<byte[]> GetRawBytesFromDatabase(string columnName, int id)
@@ -273,7 +290,12 @@ namespace UUIDSerializationEntityTests
             command.CommandText = $"SELECT {columnName} FROM TestEntities WHERE Id = @Id";
             command.Parameters.AddWithValue("@Id", id);
 
-            return (byte[])await command.ExecuteScalarAsync();
+            object? result = await command.ExecuteScalarAsync();
+            if (result is byte[] bytes)
+            {
+                return bytes;
+            }
+            return Array.Empty<byte>();
         }
 
         public void Dispose()

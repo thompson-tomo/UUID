@@ -217,7 +217,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
         .Property(e => e.Id)
         .HasConversion(
             v => v.ToByteArray(),
-            v => new UUID(v));
+            v => UUID.FromByteArray(v));
 }`
         }
       ],
