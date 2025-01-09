@@ -111,6 +111,8 @@ Guid toGuid = uuid;           // Implicit conversion`
       },
       databaseMigration: {
         code: `// Entity Framework Configuration
+
+// Option 1: Per-Property Configuration
 public class MyDbContext : DbContext
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -120,6 +122,22 @@ public class MyDbContext : DbContext
             .HasConversion<UUIDToBytesConverter>();         // Store as bytes (16 bytes)
             // or .HasConversion<UUIDToStringConverter>();  // Store as string (32 chars)
             // or .HasConversion<UUIDToBase64Converter>();  // Store as base64 (24 chars)
+    }
+}
+
+// Option 2: Global Configuration using ConfigureConventions (recommended)
+public class MyDbContext : DbContext
+{
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        // Configure all UUID properties to use bytes format (most efficient, 16 bytes)
+        configurationBuilder.UseUUIDAsBinary();
+        
+        // or use string format (32 chars)
+        // configurationBuilder.UseUUIDAsString();
+        
+        // or use base64 format (24 chars)
+        // configurationBuilder.UseUUIDAsBase64();
     }
 }
 
