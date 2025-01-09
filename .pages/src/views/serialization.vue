@@ -138,7 +138,117 @@ export default {
       ],
 
       microsoftEntityFrameworkCoreExamples: [
+        {
+          title: 'Basic Entity Configuration',
+          code: `// Entity class
+public class User
+{
+    public int Id { get; set; }
 
+    [Column(TypeName = "TEXT")]  // For SQLite
+    public UUID UserId { get; set; }  // Will be stored as bytes by default
+}
+
+// DbContext configuration
+public class AppDbContext : DbContext
+{
+    public DbSet<User> Users { get; set; }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        // Configure all UUID properties to use bytes format (most efficient, 16 bytes)
+        configurationBuilder.UseUUIDAsBinary();
+        
+        // or use string format (32 chars)
+        // configurationBuilder.UseUUIDAsString();
+        
+        // or use base64 format (24 chars)
+        // configurationBuilder.UseUUIDAsBase64();
+    }
+}`,
+          description: 'Basic example of configuring UUID properties in your entities and DbContext.'
+        },
+        {
+          title: 'Mixed Storage Formats',
+          code: `public class Document
+{
+    public int Id { get; set; }
+
+    [Column(TypeName = "BLOB")]  // For SQLite
+    public UUID DocumentId { get; set; }  // Stored as bytes
+
+    [Column(TypeName = "TEXT")]
+    public UUID StringId { get; set; }    // Stored as string
+
+    [Column(TypeName = "TEXT")]
+    public UUID Base64Id { get; set; }    // Stored as base64
+}
+
+public class AppDbContext : DbContext
+{
+    public DbSet<Document> Documents { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Document>(entity =>
+        {
+            // Configure different storage formats for each UUID property
+            entity.Property(e => e.DocumentId)
+                .HasConversion<UUIDToBytesConverter>();
+
+            entity.Property(e => e.StringId)
+                .HasConversion<UUIDToStringConverter>();
+
+            entity.Property(e => e.Base64Id)
+                .HasConversion<UUIDToBase64Converter>();
+        });
+    }
+}`,
+          description: 'Example of using different UUID storage formats in the same entity.'
+        },
+        {
+          title: 'Advanced Configuration',
+          code: `public class AppDbContext : DbContext
+{
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Global configuration for all entities
+        modelBuilder.UseUUIDToBytesConverter();  // All UUIDs will be stored as bytes
+
+        // Override for specific entity
+        modelBuilder.Entity<AuditLog>(entity =>
+        {
+            // Store audit log UUIDs as strings for better readability
+            entity.Property(e => e.LogId)
+                .HasConversion<UUIDToStringConverter>();
+        });
+
+        // Configure value generation
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.Property(e => e.DocumentId)
+                .HasConversion<UUIDToBytesConverter>()
+                .HasDefaultValueSql("UUID()");  // For MySQL/MariaDB
+                // or: .HasDefaultValueSql("NEWID()")  // For SQL Server
+                // or: .HasDefaultValueSql("gen_random_uuid()")  // For PostgreSQL
+        });
+    }
+}
+
+// Example usage
+using (var context = new AppDbContext())
+{
+    var document = new Document
+    {
+        DocumentId = UUID.New(),  // Generate new UUID
+        Title = "Sample Document"
+    };
+
+    context.Documents.Add(document);
+    await context.SaveChangesAsync();
+}`,
+          description: 'Advanced configuration examples including global settings, per-entity overrides, and database-generated UUIDs.'
+        }
       ],
 
       systemTextJsonExamples: [
