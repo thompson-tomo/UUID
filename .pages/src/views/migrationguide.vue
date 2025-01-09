@@ -117,10 +117,9 @@ public class MyDbContext : DbContext
     {
         modelBuilder.Entity<MyEntity>()
             .Property(e => e.Id)
-            .HasConversion(
-                uuid => uuid.ToString(),
-                str => UUID.Parse(str)
-            );
+            .HasConversion<UUIDToBytesConverter>();         // Store as bytes (16 bytes)
+            // or .HasConversion<UUIDToStringConverter>();  // Store as string (32 chars)
+            // or .HasConversion<UUIDToBase64Converter>();  // Store as base64 (24 chars)
     }
 }
 
