@@ -13,6 +13,16 @@
       </div>
     </section>
 
+    <section id="microsoft-entityframeworkcore-json">
+      <h2>Microsoft.EntityFrameworkCore Examples</h2>
+
+      <div class="example-card" v-for="(example, index) in microsoftEntityFrameworkCoreExamples" :key="'stj-' + index">
+        <h3>{{ example.title }}</h3>
+        <code-block>{{ example.code }}</code-block>
+        <p>{{ example.description }}</p>
+      </div>
+    </section>
+
     <section id="system-text-json">
       <h2>System.Text.Json Examples</h2>
 
@@ -125,6 +135,10 @@ export default {
           command: 'dotnet add package UUID.Serialization.Dapper',
           description: 'Install the Dapper serialization package via NuGet for database integration.'
         }
+      ],
+
+      microsoftEntityFrameworkCoreExamples: [
+
       ],
 
       systemTextJsonExamples: [
