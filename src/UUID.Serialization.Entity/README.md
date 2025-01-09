@@ -46,15 +46,15 @@ public class MyDbContext : DbContext
     {
         modelBuilder.Entity<User>()
             .Property(e => e.Id)
-            .UseUUIDAsBinary();
+            .HasConversion<UUIDToBytesConverter>();
 
         modelBuilder.Entity<AuditLog>()
             .Property(e => e.Id)
-            .UseUUIDAsString();
+            .HasConversion<UUIDToStringConverter>();
 
         modelBuilder.Entity<Session>()
             .Property(e => e.Id)
-            .UseUUIDAsBase64();
+            .HasConversion<UUIDToBase64Converter>();
     }
 }
 ```
