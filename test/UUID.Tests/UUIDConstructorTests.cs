@@ -64,6 +64,48 @@ namespace UUIDTests
         }
 
         [Fact]
+        public void Parse_WithSpan_ShouldHandleValidInput()
+        {
+            // Arrange
+            UUID uuid = UUID.New();
+            ReadOnlySpan<char> span = uuid.ToString().AsSpan();
+
+            // Act
+            UUID parsed = UUID.Parse(span);
+
+            // Assert
+            Assert.Equal(uuid, parsed);
+        }
+
+        [Fact]
+        public void Parse_WithSpan_ShouldThrowOnInvalidInput()
+        {
+            // Invalid length
+            Assert.Throws<FormatException>(() => UUID.Parse("invalid".AsSpan()));
+            Assert.Throws<FormatException>(() => UUID.Parse("1234567890123456789012345678901".AsSpan())); // 31 chars
+            Assert.Throws<FormatException>(() => UUID.Parse("123456789012345678901234567890123".AsSpan())); // 33 chars
+
+            // Invalid hex characters
+            Assert.Throws<FormatException>(() => UUID.Parse("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG".AsSpan())); // Invalid hex
+        }
+
+        [Fact]
+        public void Parse_WithSpan_ShouldHandleStackAllocatedSpan()
+        {
+            // Arrange
+            UUID original = UUID.New();
+            string str = original.ToString();
+            Span<char> stackSpan = stackalloc char[32];
+            str.AsSpan().CopyTo(stackSpan);
+
+            // Act
+            UUID parsed = UUID.Parse(stackSpan);
+
+            // Assert
+            Assert.Equal(original, parsed);
+        }
+
+        [Fact]
         public void Parse_ShouldThrowOnInvalidInput()
         {
             Assert.Throws<ArgumentNullException>(() => UUID.Parse(null!));
@@ -85,6 +127,50 @@ namespace UUIDTests
             Assert.False(UUID.TryParse("invalid", out _));
             Assert.False(UUID.TryParse("1234567890123456789012345678901", out _)); // 31 chars
             Assert.False(UUID.TryParse("123456789012345678901234567890123", out _)); // 33 chars
+        }
+
+        [Fact]
+        public void TryParse_WithSpan_ShouldHandleValidInput()
+        {
+            // Arrange
+            UUID uuid = UUID.New();
+            ReadOnlySpan<char> span = uuid.ToString().AsSpan();
+
+            // Act
+            bool success = UUID.TryParse(span, out UUID parsed);
+
+            // Assert
+            Assert.True(success);
+            Assert.Equal(uuid, parsed);
+        }
+
+        [Fact]
+        public void TryParse_WithSpan_ShouldHandleInvalidInput()
+        {
+            // Invalid length
+            Assert.False(UUID.TryParse("invalid".AsSpan(), out _));
+            Assert.False(UUID.TryParse("1234567890123456789012345678901".AsSpan(), out _)); // 31 chars
+            Assert.False(UUID.TryParse("123456789012345678901234567890123".AsSpan(), out _)); // 33 chars
+
+            // Invalid hex characters
+            Assert.False(UUID.TryParse("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG".AsSpan(), out _));
+        }
+
+        [Fact]
+        public void TryParse_WithSpan_ShouldHandleStackAllocatedSpan()
+        {
+            // Arrange
+            UUID original = UUID.New();
+            string str = original.ToString();
+            Span<char> stackSpan = stackalloc char[32];
+            str.AsSpan().CopyTo(stackSpan);
+
+            // Act
+            bool success = UUID.TryParse(stackSpan, out UUID parsed);
+
+            // Assert
+            Assert.True(success);
+            Assert.Equal(original, parsed);
         }
 
         [Fact]
