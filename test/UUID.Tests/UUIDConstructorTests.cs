@@ -672,14 +672,14 @@ namespace UUIDTests
         {
             // Arrange
             UUID uuid = UUID.New();
-            
+
             // Act
             string formatted = uuid.ToFormattedString();
-            
+
             // Assert
             Assert.Equal(36, formatted.Length); // 32 hex chars + 4 hyphens
             Assert.Matches("^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$", formatted);
-            
+
             // Verify that removing hyphens gives us the original string
             Assert.Equal(uuid.ToString(), formatted.Replace("-", ""));
         }

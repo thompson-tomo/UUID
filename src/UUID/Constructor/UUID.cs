@@ -385,8 +385,13 @@ namespace System
                 throw new FormatException("Input string must be 32 characters long.");
             }
 
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            ulong timestamp = Convert.ToUInt64(input[..16], 16);
+            ulong random = Convert.ToUInt64(input[16..], 16);
+#else
             ulong timestamp = Convert.ToUInt64(input.Substring(0, 16), 16);
             ulong random = Convert.ToUInt64(input.Substring(16), 16);
+#endif
 
             return new UUID(timestamp, random);
         }
