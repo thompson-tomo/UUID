@@ -137,10 +137,6 @@ Console.WriteLine($"Time: {id.Time:yyyy-MM-dd HH:mm:ss.fff}");`,
 string standard = uuid.ToString();
 // "0123456789ABCDEF0123456789ABCDEF"
 
-// Int64 format
-long int64 = uuid.ToInt64();
-// "40992764608247672"
-
 // Base32 format (URL-safe)
 string base32 = uuid.ToBase32();
 // "028T5CY4TQKFF028T5CY4TQKFF"
