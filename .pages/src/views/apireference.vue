@@ -146,9 +146,6 @@ export default {
       constructorsCode: `// Create a new random UUID
 public UUID()
 
-// Create from bytes
-public UUID(ReadOnlySpan<byte> bytes)
-
 // Create from string
 public static UUID Parse(string input)
 public static UUID Parse(ReadOnlySpan<char> input)
