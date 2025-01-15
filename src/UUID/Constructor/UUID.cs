@@ -391,13 +391,58 @@ namespace System
             return new UUID(timestamp, random);
         }
 
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Creates a UUID from a ReadOnlySpan{char} representation. This method provides a more efficient
+        /// way to parse UUIDs by avoiding string allocations and using span operations.
+        /// </summary>
+        /// <param name="input">A span containing the hexadecimal string representation of the UUID.
+        /// Must be exactly 32 characters long, where the first 16 characters represent the timestamp
+        /// and the last 16 characters represent the random component.</param>
+        /// <returns>A new UUID instance parsed from the input span.</returns>
+        /// <exception cref="FormatException">Thrown when:
+        /// - The input span length is not exactly 32 characters
+        /// - The input span contains non-hexadecimal characters
+        /// - The input format is invalid</exception>
+        /// <remarks>
+        /// This method is optimized for performance by:
+        /// - Using ReadOnlySpan to avoid string allocations
+        /// - Utilizing modern range syntax for efficient slicing
+        /// - Parsing directly to ulong values without intermediate string creation
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// // Parse from a string's span
+        /// ReadOnlySpan{char} uuidText = "0123456789ABCDEF0123456789ABCDEF".AsSpan();
+        /// UUID uuid = UUID.Parse(uuidText);
+        /// 
+        /// // Parse from a stackalloc'd span
+        /// Span{char} buffer = stackalloc char[32];
+        /// // ... fill buffer with UUID text ...
+        /// UUID uuid2 = UUID.Parse(buffer);
+        /// </code>
+        /// </example>
+        public static UUID Parse(ReadOnlySpan<char> input)
+        {
+            if (input.Length != 32)
+            {
+                throw new FormatException("Input must be 32 characters long.");
+            }
+
+            ulong timestamp = ulong.Parse(input[..16], NumberStyles.HexNumber);
+            ulong random = ulong.Parse(input[16..], NumberStyles.HexNumber);
+
+            return new UUID(timestamp, random);
+        }
+#endif
+
         /// <summary>
         /// Tries to parse a string into a UUID.
         /// </summary>
         /// <param name="input">The string representation of the UUID.</param>
         /// <param name="result">The parsed UUID instance.</param>
         /// <returns>true if the string was parsed successfully; otherwise, false.</returns>
-        public static bool TryParse(string? input, out UUID result)
+        public static bool TryParse(string input, out UUID result)
         {
             result = default;
 
@@ -406,7 +451,7 @@ namespace System
                 return false;
             }
 
-#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
             ReadOnlySpan<char> span = input.AsSpan();
 
             if (!ulong.TryParse(span[..16], NumberStyles.HexNumber, null, out ulong timestamp))
@@ -432,6 +477,66 @@ namespace System
 
             return true;
         }
+
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Attempts to parse a ReadOnlySpan{char} into a UUID without throwing exceptions.
+        /// This method provides a more efficient way to try parsing UUIDs by avoiding string
+        /// allocations and using span operations.
+        /// </summary>
+        /// <param name="input">A span containing the hexadecimal string representation of the UUID.
+        /// Must be exactly 32 characters long, where the first 16 characters represent the timestamp
+        /// and the last 16 characters represent the random component.</param>
+        /// <param name="result">When this method returns, contains the parsed UUID value if the parsing succeeded,
+        /// or the default UUID value if the parsing failed.</param>
+        /// <returns>true if the input was successfully parsed; otherwise, false.</returns>
+        /// <remarks>
+        /// This method is optimized for performance by:
+        /// - Using ReadOnlySpan to avoid string allocations
+        /// - Utilizing modern range syntax for efficient slicing
+        /// - Parsing directly to ulong values without intermediate string creation
+        /// - Not throwing exceptions for invalid input
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// // Try parse from a string's span
+        /// ReadOnlySpan{char} uuidText = "0123456789ABCDEF0123456789ABCDEF".AsSpan();
+        /// if (UUID.TryParse(uuidText, out UUID uuid))
+        /// {
+        ///     // Parsing succeeded, use the uuid
+        /// }
+        /// 
+        /// // Try parse from a stackalloc'd span
+        /// Span{char} buffer = stackalloc char[32];
+        /// // ... fill buffer with UUID text ...
+        /// if (UUID.TryParse(buffer, out UUID uuid2))
+        /// {
+        ///     // Parsing succeeded, use uuid2
+        /// }
+        /// </code>
+        /// </example>
+        public static bool TryParse(ReadOnlySpan<char> input, out UUID result)
+        {
+            result = default;
+
+            if (input.Length != 32)
+            {
+                return false;
+            }
+
+            if (!ulong.TryParse(input[..16], NumberStyles.HexNumber, null, out ulong timestamp))
+            {
+                return false;
+            }
+            if (!ulong.TryParse(input[16..], NumberStyles.HexNumber, null, out ulong random))
+            {
+                return false;
+            }
+
+            result = new UUID(timestamp, random);
+            return true;
+        }
+#endif
 
         /// <summary>
         /// Gets the timestamp component of the UUID.
