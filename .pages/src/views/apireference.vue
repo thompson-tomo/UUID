@@ -157,6 +157,9 @@ public static bool TryParse(ReadOnlySpan<char> input, out UUID result)`,
       stringFormattingCode: `// Convert to standard string format
 public override string ToString()
 
+// Convert to formatted string with hyphens (UUID format)
+public string ToFormattedString()
+
 // Convert to Base32 format
 public string ToBase32()
 

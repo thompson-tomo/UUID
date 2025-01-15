@@ -10,6 +10,7 @@ namespace UUIDDemo
             Console.WriteLine("1. Basic UUID Operations:");
             UUID id = UUID.New();
             Console.WriteLine($"New UUID: {id}");
+            Console.WriteLine($"Formatted UUID: {id.ToFormattedString()}");
 
             string str = id.ToString();
             Console.WriteLine($"String format: {str}");
@@ -26,6 +27,7 @@ namespace UUIDDemo
             Console.WriteLine($"Int64 format: {id.ToInt64()}");
             Console.WriteLine($"Base32 format: {id.ToBase32()}");
             Console.WriteLine($"Base64 format: {id.ToBase64()}");
+            Console.WriteLine($"Formatted format: {id.ToFormattedString()}");
 
             byte[] bytes = id.ToByteArray();
             Console.WriteLine($"Byte array length: {bytes.Length} bytes");
@@ -61,7 +63,8 @@ namespace UUIDDemo
             foreach (UUID uuid in uuidsInSameMs)
             {
                 string uuidStr = uuid.ToString();
-                Console.WriteLine($"\nUUID: {uuidStr}");
+                Console.WriteLine($"\nUUID: {uuid}");
+                Console.WriteLine($"Formatted UUID: {uuid.ToFormattedString()}");
                 Console.WriteLine("Structure:");
                 Console.WriteLine($"  Timestamp (48-bit): {uuidStr[..12]}");
                 Console.WriteLine($"  Version (4-bit): {uuid.Version} (indicated by: {uuidStr[12..13]})");

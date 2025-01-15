@@ -553,6 +553,21 @@ namespace System
         }
 
         /// <summary>
+        /// Returns a formatted string representation of the UUID with separators.
+        /// </summary>
+        /// <returns>A string in the format: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</returns>
+        public string ToFormattedString()
+        {
+            string hex = ToString();
+
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            return $"{hex[..8]}-{hex.Substring(8, 4)}-{hex.Substring(12, 4)}-{hex.Substring(16, 4)}-{hex[20..]}";
+#else
+            return $"{hex.Substring(0, 8)}-{hex.Substring(8, 4)}-{hex.Substring(12, 4)}-{hex.Substring(16, 4)}-{hex.Substring(20)}";
+#endif
+        }
+
+        /// <summary>
         /// Converts this UUID to a long value with high precision.
         /// This conversion preserves the timestamp component and combines it with a hash of the random component
         /// to maintain uniqueness while fitting within the constraints of a long value.

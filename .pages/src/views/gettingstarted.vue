@@ -137,6 +137,10 @@ Console.WriteLine($"Time: {id.Time:yyyy-MM-dd HH:mm:ss.fff}");`,
 string standard = uuid.ToString();
 // "0123456789ABCDEF0123456789ABCDEF"
 
+// Formatted with hyphens (standard UUID format)
+string formatted = uuid.ToFormattedString();
+// "01234567-89AB-CDEF-0123-456789ABCDEF"
+
 // Base32 format (URL-safe)
 string base32 = uuid.ToBase32();
 // "028T5CY4TQKFF028T5CY4TQKFF"

@@ -75,6 +75,7 @@ export default {
 var id = new UUID();
 
 // Different string formats
+Console.WriteLine(id.ToFormattedString()); // Standard format with hyphens
 Console.WriteLine(id.ToString()); // Standard format
 Console.WriteLine(id.ToBase64()); // Base64 format
 Console.WriteLine(id.ToBase32()); // Base32 format
@@ -146,10 +147,12 @@ string prefixed = $"ID_{uuid}";`,
 var id = new UUID();
 
 // Convert to different formats
+string formatted = id.ToFormattedString();
 string standard = id.ToString();
 string base64 = id.ToBase64();
 string base32 = id.ToBase32();
 
+Console.WriteLine($"Formatted: {formatted}");
 Console.WriteLine($"Standard: {standard}");
 Console.WriteLine($"Base64: {base64}");
 Console.WriteLine($"Base32: {base32}");
