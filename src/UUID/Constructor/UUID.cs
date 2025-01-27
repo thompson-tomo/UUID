@@ -156,43 +156,6 @@ namespace System
         }
 
         /// <summary>
-        /// Generates a compact UUID with a 12-character representation.
-        /// </summary>
-        /// <returns>A new UUID instance optimized for compact representation.</returns>
-        /// <remarks>
-        /// The compact UUID:
-        /// - Uses current timestamp for time-ordering
-        /// - Provides probabilistic uniqueness (not guaranteed to be unique)
-        /// - Can be represented in 12 characters
-        /// - Is fully compatible with standard UUID operations
-        /// - Not recommended for scenarios requiring absolute uniqueness
-        /// - Best suited for cases where compact representation is priority over uniqueness
-        /// </remarks>
-        public static UUID NewCompact()
-        {
-            UUID uuid = new();
-            return new UUID((ulong)(uuid.ToInt64() >> 15), (ulong)(uuid.ToInt64() & 0x7FFF));
-        }
-
-        /// <summary>
-        /// Generates a compact UUID with a specified timestamp.
-        /// </summary>
-        /// <param name="timestamp">Unix timestamp in milliseconds</param>
-        /// <returns>A new UUID instance with the specified timestamp.</returns>
-        /// <remarks>
-        /// - Useful for creating time-based sequences or testing scenarios
-        /// - The timestamp is preserved in the final UUID representation
-        /// - Provides probabilistic uniqueness (not guaranteed to be unique)
-        /// - Not recommended for scenarios requiring absolute uniqueness
-        /// - Best suited for cases where compact representation and time-ordering are priorities
-        /// </remarks>
-        public static UUID NewCompactWithTime(long timestamp)
-        {
-            UUID uuid = new((ulong)(timestamp << 16), GenerateRandom());
-            return new UUID((ulong)(uuid.ToInt64() >> 15), (ulong)(uuid.ToInt64() & 0x7FFF));
-        }
-
-        /// <summary>
         /// Generates a timestamp component for the UUID.
         /// </summary>
         /// <returns>A 64-bit unsigned integer containing the timestamp.</returns>
