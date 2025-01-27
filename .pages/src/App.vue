@@ -153,8 +153,8 @@ body {
 
 .main-content {
   flex: 1;
-  margin-left: 250px;
-  padding: 40px;
+  margin-left: 280px;
+  padding: 40px 60px;
   background-color: #121212;
   color: #fff;
   min-height: 100vh;
