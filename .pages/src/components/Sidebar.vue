@@ -1,9 +1,9 @@
 <template>
   <div class="sidebar" :class="{ 'mobile-open': isMobileOpen }">
-    <div class="logo-section">
+    <router-link to="/" class="logo-section" @click="closeMobileMenu">
       <img src="../assets/img/Logo.svg" alt="UUID Logo" class="logo-img">
       <h1>UUID</h1>
-    </div>
+    </router-link>
     
     <nav class="nav-section">
       <ul>
@@ -120,6 +120,13 @@ export default {
   justify-content: center;
   gap: 12px;
   flex-shrink: 0;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.logo-section:hover {
+  opacity: 0.9;
 }
 
 .logo-img {
