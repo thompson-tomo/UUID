@@ -138,18 +138,26 @@ ArrayExtension.Fill(uuids);`
           question: 'What string formats are supported?',
           code: `var uuid = new UUID();
 
+// Formatted with hyphens (standard UUID format)
+string formatted = uuid.ToFormattedString();
+// "01234567-89AB-CDEF-0123-456789ABCDEF"
+
+// URL-safe string
+Console.WriteLine(uuid.ToUrlSafeString());
+// "AQIDBAUGBwgJCgsMDQ4PEA"
+
 // Standard format (default)
 Console.WriteLine(uuid.ToString());
 // "0123456789ABCDEF0123456789ABCDEF"
 
-// Base32 (URL-safe)
-Console.WriteLine(uuid.ToBase32());
-// "028T5CY4TQKFF028T5CY4TQKFF"
-
 // Base64
 Console.WriteLine(uuid.ToBase64());
-// "782riWdFIwHvzauJZ0UjAQ=="`,
-          answer: 'UUID supports standard, Base32, and Base64 string formats.'
+// "782riWdFIwHvzauJZ0UjAQ=="
+
+// Base32
+Console.WriteLine(uuid.ToBase32());
+// "028T5CY4TQKFF028T5CY4TQKFF"`,
+          answer: 'UUID supports standard, Base32, Base64, and URL-safe string formats.'
         },
         {
           question: 'How do I convert between different formats?',
@@ -163,6 +171,10 @@ UUID fromBase64 = UUID.FromBase64(base64);
 byte[] bytes = uuid.ToByteArray();
 UUID fromBytes = UUID.FromByteArray(bytes);
 
+// Convert to URL-safe string
+string urlSafe = uuid.ToUrlSafeString();
+UUID fromUrlSafe = UUID.FromUrlSafeString(urlSafe);
+
 // Convert to/from Guid (implicit)
 Guid guid = uuid;
 UUID fromGuid = guid;  // Implicit conversion`,
@@ -173,7 +185,8 @@ UUID fromGuid = guid;  // Implicit conversion`,
           list: [
             '<strong>Standard format:</strong> Best for human readability and debugging',
             '<strong>Base32:</strong> Best for URLs and file names (URL-safe, no special characters)',
-            '<strong>Base64:</strong> Best for storage efficiency (shortest representation)'
+            '<strong>Base64:</strong> Best for storage efficiency (shortest representation)',
+            '<strong>URL-safe string:</strong> Best for web applications and APIs where URL safety is critical'
           ]
         },
         {
@@ -200,6 +213,18 @@ else
 {
     // Handle invalid input
     Console.WriteLine("Invalid byte array");
+}
+
+// Safe URL-safe string parsing
+if (UUID.TryFromUrlSafeString(urlSafeString, out UUID fromUrlSafe))
+{
+    // Success
+    Console.WriteLine($"Parsed UUID: {fromUrlSafe}");
+}
+else
+{
+    // Handle invalid input
+    Console.WriteLine("Invalid URL-safe string");
 }`,
           answer: 'Always use Try* methods when parsing untrusted input to handle errors gracefully.'
         },
