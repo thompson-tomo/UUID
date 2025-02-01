@@ -149,14 +149,17 @@ Parallel.ForEach(uuids, uuid =>
           title: 'String Conversions',
           icon: 'fas fa-exchange-alt',
           description: 'Choose the right string format for your use case:',
-          code: `// URL-safe string is best for web applications
-string urlSafe = uuid.ToUrlSafeString(); // Most efficient for URLs
+          code: `// Standard format is human-readable with hyphens
+string formatted = uuid.ToFormattedString(); // Standard format with hyphens
 
-// Base32 is URL-safe and compact
-string base32 = uuid.ToBase32(); // Most efficient for URLs
+// URL-safe string is best for web applications
+string urlSafe = uuid.ToUrlSafeString(); // Most efficient for URLs
 
 // Base64 is compact but may need URL encoding
 string base64 = uuid.ToBase64(); // Most space-efficient
+
+// Base32 is URL-safe and compact
+string base32 = uuid.ToBase32(); // Most efficient for URLs
 
 // Standard format is human-readable
 string standard = uuid.ToString(); // Most readable`
