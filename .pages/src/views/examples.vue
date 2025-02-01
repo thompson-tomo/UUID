@@ -168,6 +168,16 @@ Console.WriteLine($"Restored from Base64: {fromBase64}");
 if (UUID.TryFromBase64(base64, out UUID parsed))
 {
     Console.WriteLine($"Successfully parsed from Base64: {parsed}");
+}
+
+// Convert back from URL-safe string
+UUID fromUrlSafe = UUID.FromUrlSafeString(urlSafe);
+Console.WriteLine($"Restored from URL-safe: {fromUrlSafe}");
+
+// Safe parsing from URL-safe string
+if (UUID.TryFromUrlSafeString(urlSafe, out UUID parsedUrlSafe))
+{
+    Console.WriteLine($"Successfully parsed from URL-safe: {parsedUrlSafe}");
 }`,
           description: 'Examples of converting UUIDs to and from different string formats.'
         },
