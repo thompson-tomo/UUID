@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace UUIDDemo
 {
     class Program
@@ -52,7 +54,7 @@ namespace UUIDDemo
             Console.WriteLine("\n5. UUIDv7 Format and Structure:");
             Console.WriteLine("Generating multiple UUIDs in the same millisecond to demonstrate ordering:");
 
-            // Aynı milisaniye içinde üretilen UUID'ler
+            // UUIDs generated within the same millisecond
             List<UUID> uuidsInSameMs = new();
             for (int i = 0; i < 5; i++)
             {
@@ -375,21 +377,26 @@ namespace UUIDDemo
 
             // Timing comparison
             Console.WriteLine("\nTiming Comparison (Regular vs Secure):");
-            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+            Stopwatch sw = Stopwatch.StartNew();
 
             for (int i = 0; i < 1000; i++)
             {
                 _ = secureId1.Equals(secureId2);
             }
+
             sw.Stop();
+
             Console.WriteLine($"Regular Equals (1000 iterations): {sw.ElapsedTicks} ticks");
 
             sw.Restart();
+
             for (int i = 0; i < 1000; i++)
             {
                 _ = UUID.SecureEquals(secureId1, secureId2);
             }
+
             sw.Stop();
+
             Console.WriteLine($"Secure Equals (1000 iterations): {sw.ElapsedTicks} ticks");
         }
     }

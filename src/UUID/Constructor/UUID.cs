@@ -684,6 +684,101 @@ namespace System
         }
 
         /// <summary>
+        /// Returns a URL-safe string representation of the UUID.
+        /// This format is safe to use in URLs without requiring additional encoding.
+        /// </summary>
+        /// <returns>A URL-safe string representation of the UUID.</returns>
+        /// <remarks>
+        /// The returned string:
+        /// - Contains only URL-safe characters (a-z, A-Z, 0-9, - and _)
+        /// - Does not require URL encoding
+        /// - Is case-sensitive
+        /// - Has a fixed length of 22 characters
+        /// </remarks>
+        public string ToUrlSafeString()
+        {
+            byte[] bytes = new byte[SIZE];
+
+            TryWriteBytes(bytes);
+
+            string base64 = Convert.ToBase64String(bytes);
+
+            return base64.Replace('+', '-').Replace('/', '_').TrimEnd('=');
+        }
+
+        /// <summary>
+        /// Creates a new UUID from a URL-safe string representation.
+        /// </summary>
+        /// <param name="urlSafe">The URL-safe string to parse.</param>
+        /// <returns>A new UUID instance.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when urlSafe is null.</exception>
+        /// <exception cref="FormatException">Thrown when urlSafe is not in the correct format.</exception>
+        public static UUID FromUrlSafeString(string urlSafe)
+        {
+            if (urlSafe == null)
+            {
+                throw new ArgumentNullException(nameof(urlSafe));
+            }
+
+            try
+            {
+                // Restore Base64 padding and characters
+                string base64 = urlSafe.Replace('-', '+').Replace('_', '/');
+
+                // Add padding if needed
+                switch (base64.Length % 4)
+                {
+                    case 2:
+                        base64 += "==";
+                        break;
+                    case 3:
+                        base64 += "=";
+                        break;
+                }
+
+                byte[] bytes = Convert.FromBase64String(base64);
+
+                if (bytes.Length != SIZE)
+                {
+                    throw new FormatException($"Invalid URL-safe string length. Expected {SIZE} bytes after decoding.");
+                }
+
+                return FromByteArray(bytes);
+            }
+            catch (FormatException)
+            {
+                throw new FormatException("Invalid URL-safe string format.");
+            }
+        }
+
+        /// <summary>
+        /// Attempts to create a UUID from a URL-safe string.
+        /// </summary>
+        /// <param name="urlSafe">The URL-safe string to parse.</param>
+        /// <param name="result">When this method returns, contains the UUID value if the conversion succeeded, or default if the conversion failed.</param>
+        /// <returns>true if the conversion was successful; otherwise, false.</returns>
+        public static bool TryFromUrlSafeString(string urlSafe, out UUID result)
+        {
+            result = default;
+
+            if (string.IsNullOrWhiteSpace(urlSafe))
+            {
+                return false;
+            }
+
+            try
+            {
+                result = FromUrlSafeString(urlSafe);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Converts the UUID to a byte array.
         /// </summary>
         /// <returns>A byte array representation of the UUID.</returns>
@@ -703,6 +798,7 @@ namespace System
         public byte[] ToByteArray()
         {
             byte[] bytes = new byte[SIZE];
+
             TryWriteBytes(bytes);
 
             return bytes;
@@ -769,6 +865,7 @@ namespace System
         public Guid ToGuid()
         {
             byte[] bytes = new byte[SIZE];
+
             TryWriteBytes(bytes);
 
             return new Guid(bytes);
