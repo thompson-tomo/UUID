@@ -137,6 +137,10 @@ Console.WriteLine($"Time: {id.Time:yyyy-MM-dd HH:mm:ss.fff}");`,
 string formatted = uuid.ToFormattedString();
 // "01234567-89AB-CDEF-0123-456789ABCDEF"
 
+// URL-safe string format
+string urlSafe = uuid.ToUrlSafeString();
+// "782riWdFIwHvzauJZ0UjAQ"
+
 // Standard format
 string standard = uuid.ToString();
 // "0123456789ABCDEF0123456789ABCDEF"
@@ -157,6 +161,16 @@ Console.WriteLine($"Base64 -> UUID: {fromBase64}");
 if (UUID.TryFromBase64(base64, out UUID parsedFromBase64))
 {
     Console.WriteLine($"Successfully parsed from Base64: {parsedFromBase64}");
+}
+
+// Convert URL-safe string back to UUID
+UUID fromUrlSafe = UUID.FromUrlSafeString(urlSafe);
+Console.WriteLine($"URL-safe -> UUID: {fromUrlSafe}");
+
+// Safe parsing with TryFromUrlSafeString
+if (UUID.TryFromUrlSafeString(urlSafe, out UUID parsedFromUrlSafe))
+{
+    Console.WriteLine($"Successfully parsed from URL-safe string: {parsedFromUrlSafe}");
 }`,
 
       bulkOperationsCode: `// Fill an existing array with UUIDs
