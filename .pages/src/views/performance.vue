@@ -155,14 +155,14 @@ string formatted = uuid.ToFormattedString(); // Standard format with hyphens
 // URL-safe string is best for web applications
 string urlSafe = uuid.ToUrlSafeString(); // Most efficient for URLs
 
+// Standard format is human-readable
+string standard = uuid.ToString(); // Most readable
+
 // Base64 is compact but may need URL encoding
 string base64 = uuid.ToBase64(); // Most space-efficient
 
 // Base32 is URL-safe and compact
-string base32 = uuid.ToBase32(); // Most efficient for URLs
-
-// Standard format is human-readable
-string standard = uuid.ToString(); // Most readable`
+string base32 = uuid.ToBase32(); // Most efficient for URLs`
         },
         {
           title: 'Byte Array Operations',
