@@ -29,6 +29,7 @@ namespace UUIDDemo
             Console.WriteLine($"Int64 format: {id.ToInt64()}");
             Console.WriteLine($"Base32 format: {id.ToBase32()}");
             Console.WriteLine($"Base64 format: {id.ToBase64()}");
+            Console.WriteLine($"Url safe format: {id.ToUrlSafeString()}");
             Console.WriteLine($"Formatted format: {id.ToFormattedString()}");
 
             byte[] bytes = id.ToByteArray();
@@ -398,6 +399,33 @@ namespace UUIDDemo
             sw.Stop();
 
             Console.WriteLine($"Secure Equals (1000 iterations): {sw.ElapsedTicks} ticks");
+
+            Console.WriteLine("\n18. URL-Safe String Operations:");
+            UUID urlSafeId = UUID.New();
+            Console.WriteLine($"Original UUID: {urlSafeId}");
+
+            // Example of ToUrlSafeString
+            string urlSafeStr = urlSafeId.ToUrlSafeString();
+            Console.WriteLine($"URL-safe string: {urlSafeStr}");
+
+            // Example of FromUrlSafeString
+            UUID fromUrlSafe = UUID.FromUrlSafeString(urlSafeStr);
+            Console.WriteLine($"Converted back from URL-safe: {fromUrlSafe}");
+            Console.WriteLine($"Equals original? {urlSafeId == fromUrlSafe}");
+
+            // Example of TryFromUrlSafeString
+            if (UUID.TryFromUrlSafeString(urlSafeStr, out UUID parsedUrlSafe))
+            {
+                Console.WriteLine($"Successfully parsed from URL-safe string: {parsedUrlSafe}");
+                Console.WriteLine($"Equals original? {urlSafeId == parsedUrlSafe}");
+            }
+
+            // Testing with invalid URL-safe string
+            string invalidUrlSafe = "invalid_url_safe_string";
+            if (!UUID.TryFromUrlSafeString(invalidUrlSafe, out UUID invalidParsed))
+            {
+                Console.WriteLine($"Failed to parse invalid URL-safe string: {invalidUrlSafe}");
+            }
         }
     }
 }

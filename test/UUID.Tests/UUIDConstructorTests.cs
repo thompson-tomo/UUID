@@ -683,5 +683,68 @@ namespace UUIDTests
             // Verify that removing hyphens gives us the original string
             Assert.Equal(uuid.ToString(), formatted.Replace("-", ""));
         }
+
+        [Fact]
+        public void ToUrlSafeString_ShouldBeValid()
+        {
+            // Arrange
+            UUID uuid = UUID.New();
+
+            // Act
+            string urlSafe = uuid.ToUrlSafeString();
+
+            // Assert
+            Assert.Equal(22, urlSafe.Length); // Base64 URL safe length
+            Assert.Matches("^[A-Za-z0-9_-]+$", urlSafe); // Only URL safe characters
+            Assert.DoesNotContain("+", urlSafe); // Should not contain base64 special chars
+            Assert.DoesNotContain("/", urlSafe);
+            Assert.DoesNotContain("=", urlSafe);
+        }
+
+        [Fact]
+        public void FromUrlSafeString_ShouldBeReversible()
+        {
+            // Arrange
+            UUID original = UUID.New();
+            string urlSafe = original.ToUrlSafeString();
+
+            // Act
+            UUID fromUrlSafe = UUID.FromUrlSafeString(urlSafe);
+
+            // Assert
+            Assert.Equal(original, fromUrlSafe);
+        }
+
+        [Fact]
+        public void FromUrlSafeString_ShouldHandleInvalidInput()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<FormatException>(() => UUID.FromUrlSafeString(""));
+            Assert.Throws<FormatException>(() => UUID.FromUrlSafeString("invalid"));
+            Assert.Throws<ArgumentNullException>(() => UUID.FromUrlSafeString(null));
+            Assert.Throws<FormatException>(() => UUID.FromUrlSafeString("aaa")); // Too short
+            Assert.Throws<FormatException>(() => UUID.FromUrlSafeString("++++")); // Invalid characters
+            Assert.Throws<FormatException>(() => UUID.FromUrlSafeString(new string('A', 23))); // Too long
+        }
+
+        [Fact]
+        public void TryFromUrlSafeString_ShouldHandleValidAndInvalidInput()
+        {
+            // Arrange
+            UUID original = UUID.New();
+            string urlSafe = original.ToUrlSafeString();
+
+            // Act & Assert - Valid input
+            Assert.True(UUID.TryFromUrlSafeString(urlSafe, out UUID result));
+            Assert.Equal(original, result);
+
+            // Act & Assert - Invalid inputs
+            Assert.False(UUID.TryFromUrlSafeString("", out _));
+            Assert.False(UUID.TryFromUrlSafeString(null, out _));
+            Assert.False(UUID.TryFromUrlSafeString("aaa", out _));
+            Assert.False(UUID.TryFromUrlSafeString("++++", out _));
+            Assert.False(UUID.TryFromUrlSafeString("invalid", out _));
+            Assert.False(UUID.TryFromUrlSafeString(new string('A', 23), out _));
+        }
     }
 }
