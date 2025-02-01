@@ -232,14 +232,20 @@ SqlMapper.AddTypeHandler(new Base64UUIDHandler());  // For base64 storage`
         code: `// Common string formats supported
 UUID uuid = new UUID();
 
+// Formatted with hyphens (standard UUID format)
+string formatted = uuid.ToFormattedString();  // "01234567-89AB-CDEF-0123-456789ABCDEF"
+
+// URL-safe string format
+string urlSafe = uuid.ToUrlSafeString();  // "782riWdFIwHvzauJZ0UjAQ"
+
 // Standard format
 string standard = uuid.ToString();  // "0123456789ABCDEF0123456789ABCDEF"
 
-// URL-safe format
-string urlSafe = uuid.ToBase32();   // "028T5CY4TQKFF028T5CY4TQKFF"
-
 // Base64 format
-string base64 = uuid.ToBase64();    // "782riWdFIwHvzauJZ0UjAQ=="`
+string base64 = uuid.ToBase64();  // "782riWdFIwHvzauJZ0UjAQ=="
+
+// Bae32 format
+string base32 = uuid.ToBase32();  // "028T5CY4TQKFF028T5CY4TQKFF"`
       },
       performanceOptimization: {
         code: `// Reusable buffers for high-performance scenarios

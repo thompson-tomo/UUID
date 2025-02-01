@@ -115,7 +115,7 @@ ArrayExtension.Fill(uuids); // Still uses secure RNG`
         'Always validate UUID inputs',
         'Use TryParse for untrusted input',
         'Store UUIDs in their binary form when possible',
-        'Use URL-safe Base32 encoding for web contexts'
+        'Use URL-safe ToUrlSafeString for web contexts'
       ],
 
       practicestoAvoid: [

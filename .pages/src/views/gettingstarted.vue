@@ -149,7 +149,7 @@ string standard = uuid.ToString();
 string base64 = uuid.ToBase64();
 // "782riWdFIwHvzauJZ0UjAQ=="
 
-// Base32 format (URL-safe)
+// Base32 format
 string base32 = uuid.ToBase32();
 // "028T5CY4TQKFF028T5CY4TQKFF"
 
@@ -237,7 +237,7 @@ if (UUID.TryFromBase64("AAAAAAAAAAAAAAAAAAAAAA==", out UUID fromBase64))
           title: 'String Formatting',
           items: [
             'Use appropriate string format methods based on your needs',
-            'Consider using Base32 for URL-safe strings'
+            'Consider using ToUrlSafeString for URL-safe strings'
           ]
         },
         {
