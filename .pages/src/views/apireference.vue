@@ -160,6 +160,9 @@ public override string ToString()
 // Convert to formatted string with hyphens (UUID format)
 public string ToFormattedString()
 
+// Convert to URL-safe string format
+public string ToUrlSafeString()
+
 // Convert to Base32 format
 public string ToBase32()
 
@@ -168,7 +171,11 @@ public string ToBase64()
 
 // Convert from Base64 format
 public static UUID FromBase64(string base64)
-public static bool TryFromBase64(string base64, out UUID result)`,
+public static bool TryFromBase64(string base64, out UUID result)
+
+// Convert from URL-safe string format
+public static UUID FromUrlSafeString(string urlSafeString)
+public static bool TryFromUrlSafeString(string urlSafeString, out UUID result)`,
 
       byteArrayCode: `// Convert to byte array
 public byte[] ToByteArray()
