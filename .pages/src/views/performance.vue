@@ -149,7 +149,10 @@ Parallel.ForEach(uuids, uuid =>
           title: 'String Conversions',
           icon: 'fas fa-exchange-alt',
           description: 'Choose the right string format for your use case:',
-          code: `// Base32 is URL-safe and compact
+          code: `// URL-safe string is best for web applications
+string urlSafe = uuid.ToUrlSafeString(); // Most efficient for URLs
+
+// Base32 is URL-safe and compact
 string base32 = uuid.ToBase32(); // Most efficient for URLs
 
 // Base64 is compact but may need URL encoding
