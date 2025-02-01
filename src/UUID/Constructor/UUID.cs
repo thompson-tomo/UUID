@@ -161,7 +161,14 @@ namespace System
         /// <returns>A 64-bit unsigned integer containing the timestamp.</returns>
         /// <remarks>
         /// The timestamp is based on the current UTC time in milliseconds.
-        /// Thread safety is handled internally.
+        /// The returned value is structured as follows:
+        /// - Bits 0-11: Monotonic counter (12 bits)
+        /// - Bits 12-15: Version number (4 bits)
+        /// - Bits 16-63: Unix timestamp in milliseconds (48 bits)
+        /// 
+        /// Thread safety is handled internally through atomic operations.
+        /// If multiple UUIDs are generated within the same millisecond,
+        /// the monotonic counter ensures unique and ordered values.
         /// </remarks>
         private static ulong GenerateTimestamp()
         {
@@ -908,6 +915,7 @@ namespace System
             }
 
             int result = 0;
+
             for (int i = 0; i < thisBytes.Length; i++)
             {
                 result |= thisBytes[i] ^ otherBytes[i];
@@ -953,8 +961,6 @@ namespace System
             {
                 return true;
             }
-
-            //if (first is null || second is null) return false;
 
             byte[] firstBytes = first.ToByteArray();
             byte[] secondBytes = second.ToByteArray();
