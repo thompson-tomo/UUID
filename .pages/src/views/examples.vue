@@ -76,6 +76,7 @@ var id = new UUID();
 
 // Different string formats
 Console.WriteLine(id.ToFormattedString()); // Standard format with hyphens
+Console.WriteLine(id.ToUrlSafeString()); // URL-safe format
 Console.WriteLine(id.ToString()); // Standard format
 Console.WriteLine(id.ToBase64()); // Base64 format
 Console.WriteLine(id.ToBase32()); // Base32 format
@@ -148,12 +149,14 @@ var id = new UUID();
 
 // Convert to different formats
 string formatted = id.ToFormattedString();
+string urlSafe = id.ToUrlSafeString();
 string standard = id.ToString();
 string base64 = id.ToBase64();
 string base32 = id.ToBase32();
 
 Console.WriteLine($"Formatted: {formatted}");
 Console.WriteLine($"Standard: {standard}");
+Console.WriteLine($"URL-safe: {urlSafe}");
 Console.WriteLine($"Base64: {base64}");
 Console.WriteLine($"Base32: {base32}");
 
