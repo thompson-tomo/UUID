@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
         <DefaultLanguage>en-GB</DefaultLanguage>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <ApplicationIcon>Resources\UUID.ico</ApplicationIcon>
-        <Version>1.1.1</Version>
+        <Version>1.1.2</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>UUID.Serialization.Entity</Title>
@@ -59,10 +59,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Condition="'$(TargetFramework)' == 'net9.0'" Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-        <PackageReference Condition="'$(TargetFramework)' == 'net8.0'" Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
-        <PackageReference Condition="'$(TargetFramework)' == 'net7.0'" Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
         <PackageReference Condition="'$(TargetFramework)' == 'net6.0'" Include="Microsoft.EntityFrameworkCore" Version="6.0.36" />
+        <PackageReference Condition="'$(TargetFramework)' == 'net7.0'" Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
+        <PackageReference Condition="'$(TargetFramework)' == 'net8.0'" Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
+        <PackageReference Condition="'$(TargetFramework)' == 'net9.0'" Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+        <PackageReference Condition="'$(TargetFramework)' == 'net10.0'" Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.2.25163.8" />
     </ItemGroup>
 
     <ItemGroup>
