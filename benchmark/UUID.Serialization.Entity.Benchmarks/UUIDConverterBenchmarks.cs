@@ -9,7 +9,7 @@ namespace UUIDSerializationEntityBenchmarks
     [RankColumn]
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
-    [SimpleJob(RuntimeMoniker.Net90, launchCount: 1, warmupCount: 2, iterationCount: 3)]
+    [SimpleJob(RuntimeMoniker.HostProcess, launchCount: 1, warmupCount: 2, iterationCount: 3)]
     public class UUIDConverterBenchmarks : IDisposable
     {
         private readonly SqliteConnection _connection;

@@ -6,13 +6,13 @@
         <LangVersion>preview</LangVersion>
         <AnalysisLevel>preview</AnalysisLevel>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <RootNamespace>UUIDSerializationDapperDemo</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.66" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.3" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0-preview.4.25215.1" />
     </ItemGroup>
 
     <ItemGroup>

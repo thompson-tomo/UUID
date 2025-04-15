@@ -37,6 +37,9 @@ namespace UUIDSerializationSystemDemo
             // Error handling
             Console.Clear();
             ErrorHandlingDemo();
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
         }
 
         private static void BasicSerializationDemo()

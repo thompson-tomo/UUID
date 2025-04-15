@@ -90,6 +90,9 @@ namespace UUIDSerializationDapperDemo
             connection.Close();
 
             Console.WriteLine($"\nDemo database created at: {Path.GetFullPath(DatabasePath)}");
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
         }
 
         private static void CreateDemoTable(IDbConnection connection)

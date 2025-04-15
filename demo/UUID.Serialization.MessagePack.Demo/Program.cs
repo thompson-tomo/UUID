@@ -77,6 +77,9 @@ namespace UUIDSerializationMessagePackDemo
             {
                 Console.WriteLine($"User {item.Id}: {item.UserId}");
             }
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
         }
     }
 }

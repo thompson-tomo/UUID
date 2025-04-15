@@ -426,6 +426,9 @@ namespace UUIDDemo
             {
                 Console.WriteLine($"Failed to parse invalid URL-safe string: {invalidUrlSafe}");
             }
+
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
         }
     }
 }
