@@ -53,7 +53,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub">
-            <Version>10.0.0-beta.25214.103</Version>
+            <Version>10.0.0-beta.25256.109</Version>
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
     </ItemGroup>
