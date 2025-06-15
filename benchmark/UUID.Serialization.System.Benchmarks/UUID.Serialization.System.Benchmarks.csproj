@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.15.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.15.1" />
         <PackageReference Include="System.Text.Json" Version="10.0.0-preview.6.25304.106" />
     </ItemGroup>
 

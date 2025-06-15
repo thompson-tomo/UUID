@@ -18,7 +18,7 @@
         <PackageReference Include="xunit" Version="2.9.3" />
         <PackageReference Include="System.Text.Json" Version="10.0.0-preview.6.25304.106" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.15.0-preview-25259-101" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
