@@ -78,7 +78,7 @@ The converter provides detailed error messages for common scenarios:
 ## Requirements
 
 - UUID library
-- System.Text.Json 9.0.0 or later
+- System.Text.Json 9.0.5 or later
 - Supports .NET 6.0+, .NET Standard 2.0+, and .NET Framework 4.8+
 
 ## Contributing
@@ -87,4 +87,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the terms of the LICENSE file included in the root directory.
+This project is licensed under the [MIT License](https://github.com/Taiizor/UUID/blob/develop/LICENSE). See the LICENSE file in the root directory for more details.

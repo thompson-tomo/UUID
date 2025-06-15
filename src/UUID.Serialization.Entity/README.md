@@ -115,7 +115,7 @@ CREATE TABLE Sessions (
 
 - UUID library
 - Supports .NET 6.0 or later
-- Microsoft.EntityFrameworkCore 6.0.0 or later
+- Microsoft.EntityFrameworkCore 6.0.36 or later
 
 ## Contributing
 
@@ -123,4 +123,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the terms of the LICENSE file included in the root directory.
+This project is licensed under the [MIT License](https://github.com/Taiizor/UUID/blob/develop/LICENSE). See the LICENSE file in the root directory for more details.
