@@ -21,8 +21,8 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.15.0-preview-25259-101" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-preview.6.25314.101" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.6.25314.101" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-rc.2.25454.104" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-rc.2.25454.104" />
     </ItemGroup>
 
 </Project>
