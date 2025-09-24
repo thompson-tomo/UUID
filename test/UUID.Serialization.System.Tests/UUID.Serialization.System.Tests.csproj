@@ -20,7 +20,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.Text.Json" Version="10.0.0-rc.2.25453.108" />
+        <PackageReference Include="System.Text.Json" Version="10.0.0-rc.2.25468.104" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.15.0-preview-25259-101" />
     </ItemGroup>
 
