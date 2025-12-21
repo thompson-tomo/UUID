@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.47.0",
-    "vue": "^3.5.25",
-    "vue-router": "^4.6.3",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4",
     "prismjs": "^1.30.0",
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@vueuse/head": "^2.0.0"
@@ -22,7 +22,7 @@
     "@vue/cli-plugin-eslint": "~5.0.9",
     "@vue/cli-plugin-router": "~5.0.9",
     "@vue/cli-service": "~5.0.9",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-vue": "^10.6.2",
     "babel-eslint": "^10.1.0"
   },
