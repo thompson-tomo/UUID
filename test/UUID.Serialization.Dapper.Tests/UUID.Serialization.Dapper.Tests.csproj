@@ -17,11 +17,11 @@
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.66" />
         <PackageReference Include="xunit.v3" Version="3.2.2" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0-preview1.25257.1" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0-preview3.25342.7" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.15.0-preview-25259-101" />
     </ItemGroup>
 
