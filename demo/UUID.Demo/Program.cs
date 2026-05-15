@@ -56,7 +56,7 @@ namespace UUIDDemo
             Console.WriteLine("Generating multiple UUIDs in the same millisecond to demonstrate ordering:");
 
             // UUIDs generated within the same millisecond
-            List<UUID> uuidsInSameMs = new();
+            List<UUID> uuidsInSameMs = [];
             for (int i = 0; i < 5; i++)
             {
                 uuidsInSameMs.Add(UUID.New());
@@ -218,7 +218,7 @@ namespace UUIDDemo
             }
 
             Console.WriteLine("\n12. Sorting and Thread Safety:");
-            List<UUID> ids = new();
+            List<UUID> ids = [];
             for (int i = 0; i < 5; i++)
             {
                 await Task.Delay(1); // Wait for different timestamps
@@ -284,8 +284,8 @@ namespace UUIDDemo
             Console.WriteLine($"Is array still monotonically ordered? {UUID.AreMonotonicallyOrdered(orderedArray)}");
 
             Console.WriteLine("\n14. Thread-Safe UUID Generation:");
-            HashSet<UUID> set = new();
-            List<Task> tasks = new();
+            HashSet<UUID> set = [];
+            List<Task> tasks = [];
 
             for (int i = 0; i < 5; i++)
             {

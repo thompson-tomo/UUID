@@ -34,7 +34,7 @@ namespace UUIDTests
         [Fact]
         public void New_ShouldGenerateUniqueValues()
         {
-            HashSet<UUID> set = new();
+            HashSet<UUID> set = [];
             for (int i = 0; i < 10000; i++)
             {
                 UUID uuid = UUID.New();
@@ -279,8 +279,8 @@ namespace UUIDTests
         [Fact]
         public async Task New_ShouldBeThreadSafe()
         {
-            HashSet<UUID> set = new();
-            List<Task> tasks = new();
+            HashSet<UUID> set = [];
+            List<Task> tasks = [];
             object lockObj = new();
 
             for (int i = 0; i < 10; i++)
@@ -482,7 +482,7 @@ namespace UUIDTests
         {
             // Arrange
             const int count = 1000;
-            List<UUID> uuids = new();
+            List<UUID> uuids = [];
 
             // Act - Generate UUIDs as fast as possible to get many in the same millisecond
             for (int i = 0; i < count; i++)
@@ -532,8 +532,8 @@ namespace UUIDTests
             // Arrange
             const int threadCount = 10;
             const int uuidsPerThread = 1000;
-            ConcurrentBag<UUID> allUuids = new();
-            List<Task> tasks = new();
+            ConcurrentBag<UUID> allUuids = [];
+            List<Task> tasks = [];
 
             // Act
             for (int i = 0; i < threadCount; i++)

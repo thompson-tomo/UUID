@@ -13,7 +13,7 @@ namespace UUIDTests
             UUID[] array = new UUID[1000];
             array.Fill();
 
-            HashSet<UUID> set = new(array);
+            HashSet<UUID> set = [with(array)];
             Assert.Equal(array.Length, set.Count);
         }
 
@@ -42,7 +42,7 @@ namespace UUIDTests
             UUID[] array = new UUID[1000];
             Assert.True(array.TryFill());
 
-            HashSet<UUID> set = new(array);
+            HashSet<UUID> set = [with(array)];
             Assert.Equal(array.Length, set.Count);
         }
 
@@ -84,12 +84,12 @@ namespace UUIDTests
         {
             // Test Generate
             UUID[] array1 = ArrayExtension.Generate(500);
-            HashSet<UUID> set1 = new(array1);
+            HashSet<UUID> set1 = [with(array1)];
             Assert.Equal(array1.Length, set1.Count);
 
             // Test TryGenerate
             Assert.True(ArrayExtension.TryGenerate(500, out UUID[] array2));
-            HashSet<UUID> set2 = new(array2);
+            HashSet<UUID> set2 = [with(array2)];
             Assert.Equal(array2.Length, set2.Count);
 
             // Test that arrays are different
@@ -102,7 +102,7 @@ namespace UUIDTests
             UUID[] array = new UUID[2000];
             array.FillParallel();
 
-            HashSet<UUID> set = new(array);
+            HashSet<UUID> set = [with(array)];
             Assert.Equal(array.Length, set.Count);
         }
 
@@ -122,7 +122,7 @@ namespace UUIDTests
             UUID[] array = new UUID[2000];
             array.FillParallel(threshold);
 
-            HashSet<UUID> set = new(array);
+            HashSet<UUID> set = [with(array)];
             Assert.Equal(array.Length, set.Count);
         }
 
@@ -144,7 +144,7 @@ namespace UUIDTests
             UUID[] array = new UUID[2000];
             Assert.True(array.TryFillParallel());
 
-            HashSet<UUID> set = new(array);
+            HashSet<UUID> set = [with(array)];
             Assert.Equal(array.Length, set.Count);
         }
 
@@ -157,7 +157,7 @@ namespace UUIDTests
             UUID[] array = new UUID[2000];
             Assert.True(array.TryFillParallel(threshold));
 
-            HashSet<UUID> set = new(array);
+            HashSet<UUID> set = [with(array)];
             Assert.Equal(array.Length, set.Count);
         }
 
@@ -166,12 +166,12 @@ namespace UUIDTests
         {
             // Test GenerateOrdered
             UUID[] array1 = ArrayExtension.GenerateOrdered(500);
-            HashSet<UUID> set1 = new(array1);
+            HashSet<UUID> set1 = [with(array1)];
             Assert.Equal(array1.Length, set1.Count);
 
             // Test TryGenerateOrdered
             Assert.True(ArrayExtension.TryGenerateOrdered(500, out UUID[] array2));
-            HashSet<UUID> set2 = new(array2);
+            HashSet<UUID> set2 = [with(array2)];
             Assert.Equal(array2.Length, set2.Count);
 
             // Test that arrays are different

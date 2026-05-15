@@ -33,7 +33,7 @@ namespace UUIDSerializationMessagePackBenchmarks
             _uuid = new UUID();
             _serializedUuid = MessagePackSerializer.Serialize(_uuid, _options);
 
-            _uuidList = new List<UUID> { new(), new(), new() };
+            _uuidList = [new(), new(), new()];
             _serializedUuidList = MessagePackSerializer.Serialize(_uuidList, _options);
 
             _uuidDictionary = new Dictionary<UUID, string>
@@ -48,7 +48,7 @@ namespace UUIDSerializationMessagePackBenchmarks
             {
                 Id = new UUID(),
                 Name = "Test",
-                Items = new List<UUID> { new(), new() }
+                Items = [new(), new()]
             };
             _serializedModel = MessagePackSerializer.Serialize(_model, _options);
         }
@@ -112,6 +112,6 @@ namespace UUIDSerializationMessagePackBenchmarks
         public string Name { get; set; } = "";
 
         [Key(2)]
-        public List<UUID> Items { get; set; } = new();
+        public List<UUID> Items { get; set; } = [];
     }
 }
